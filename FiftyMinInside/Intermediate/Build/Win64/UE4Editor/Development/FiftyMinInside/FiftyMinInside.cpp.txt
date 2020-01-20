@@ -1,0 +1,2 @@
+C:\Users\chyrr\Documents\UE\50-Inside\FiftyMinInside\Intermediate\Build\Win64\UE4Editor\Development\FiftyMinInside\Definitions.FiftyMinInside.h
+C:\Users\chyrr\Documents\UE\50-Inside\FiftyMinInside\Source\FiftyMinInside\FiftyMinInside.h

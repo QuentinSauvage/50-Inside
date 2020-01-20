@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "FiftyMinInside",
+			"Path": "C:\\Users\\chyrr\\Documents\\UE\\50-Inside\\FiftyMinInside\\Source\\FiftyMinInside.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "FiftyMinInsideEditor",
+			"Path": "C:\\Users\\chyrr\\Documents\\UE\\50-Inside\\FiftyMinInside\\Source\\FiftyMinInsideEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
