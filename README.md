@@ -6,4 +6,4 @@ _This project is currently in work of progress. More will come soon._
 ### Links for assets
 
 ### Trello
-https://trello.com/b/eHcCihqj/remake-descent
+https://trello.com/b/eHcCihqj/50-inside
