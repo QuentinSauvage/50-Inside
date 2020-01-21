@@ -1,7 +1,0 @@
-C:\Users\chyrr\Documents\UE\50-Inside\FiftyMinInside\Intermediate\Build\Win64\UE4Editor\Development\FiftyMinInside\Definitions.FiftyMinInside.h
-C:\Users\chyrr\Documents\UE\50-Inside\FiftyMinInside\Source\FiftyMinInside\FiftyMinInsidePawn.h
-C:\Users\chyrr\Documents\UE\50-Inside\FiftyMinInside\Intermediate\Build\Win64\UE4Editor\Inc\FiftyMinInside\FiftyMinInsidePawn.generated.h
-C:\Program Files\Epic Games\UE_4.24\Engine\Source\Runtime\Engine\Classes\Camera/CameraComponent.h
-C:\Program Files\Epic Games\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CameraComponent.generated.h
-C:\Program Files\Epic Games\UE_4.24\Engine\Source\Runtime\Engine\Classes\GameFramework/SpringArmComponent.h
-C:\Program Files\Epic Games\UE_4.24\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SpringArmComponent.generated.h
