@@ -31,7 +31,7 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm0"));
 	SpringArm->SetupAttachment(RootComponent);	// Attach SpringArm to RootComponent
 	SpringArm->TargetArmLength = 160.0f; // The camera follows at this distance behind the character	
-	SpringArm->SocketOffset = FVector(0.f,0.f,60.f);
+	SpringArm->SocketOffset = FVector(0.f, 0.f, 60.f);
 	SpringArm->bEnableCameraLag = false;	// Do not allow camera to lag
 	SpringArm->CameraLagSpeed = 15.f;
 
@@ -41,22 +41,24 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	Camera->bUsePawnControlRotation = false; // Don't rotate camera with controller
 
 	// Set handling parameters
-	Acceleration = 500.f;
+	Acceleration = 1500.f;
+	DecelerationRate = 1.5f;
 	TurnSpeed = 50.f;
 	MaxSpeed = 4000.f;
-	MinSpeed = 500.f;
-	CurrentForwardSpeed = 500.f;
+	MinSpeed = -3000.f;
+	CurrentForwardSpeed = 0.f;
+	CurrentRightSpeed = 0.f;
 }
 
 void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 {
-	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaSeconds, 0.f, 0.f);
+	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaSeconds, CurrentRightSpeed * DeltaSeconds, 0.f);
 
 	// Move plan forwards (with sweep so we stop when we collide with things)
 	AddActorLocalOffset(LocalMove, true);
 
 	// Calculate change in rotation this frame
-	FRotator DeltaRotation(0,0,0);
+	FRotator DeltaRotation(0, 0, 0);
 	DeltaRotation.Pitch = CurrentPitchSpeed * DeltaSeconds;
 	DeltaRotation.Yaw = CurrentYawSpeed * DeltaSeconds;
 	DeltaRotation.Roll = CurrentRollSpeed * DeltaSeconds;
@@ -80,28 +82,49 @@ void AFiftyMinInsidePawn::NotifyHit(class UPrimitiveComponent* MyComp, class AAc
 
 void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
-    // Check if PlayerInputComponent is valid (not NULL)
+	// Check if PlayerInputComponent is valid (not NULL)
 	check(PlayerInputComponent);
 
 	// Bind our control axis' to callback functions
-	PlayerInputComponent->BindAxis("Thrust", this, &AFiftyMinInsidePawn::ThrustInput);
-	PlayerInputComponent->BindAxis("MoveUp", this, &AFiftyMinInsidePawn::MoveUpInput);
+	PlayerInputComponent->BindAxis("MoveForward", this, &AFiftyMinInsidePawn::MoveForwardInput);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFiftyMinInsidePawn::MoveRightInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &AFiftyMinInsidePawn::LookUpInput);
+	PlayerInputComponent->BindAxis("Turn", this, &AFiftyMinInsidePawn::TurnInput);
 }
 
-void AFiftyMinInsidePawn::ThrustInput(float Val)
+void AFiftyMinInsidePawn::MoveForwardInput(float Val)
 {
 	// Is there any input?
 	bool bHasInput = !FMath::IsNearlyEqual(Val, 0.f);
 	// If input is not held down, reduce speed
-	float CurrentAcc = bHasInput ? (Val * Acceleration) : (-0.5f * Acceleration);
+	float CurrentAcc;
+	if (bHasInput)
+		CurrentAcc = Val * Acceleration;
+	else
+		CurrentAcc = CurrentForwardSpeed > 0.f ? (-DecelerationRate * Acceleration) : (DecelerationRate * Acceleration);
 	// Calculate new speed
 	float NewForwardSpeed = CurrentForwardSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
 	// Clamp between MinSpeed and MaxSpeed
 	CurrentForwardSpeed = FMath::Clamp(NewForwardSpeed, MinSpeed, MaxSpeed);
 }
 
-void AFiftyMinInsidePawn::MoveUpInput(float Val)
+void AFiftyMinInsidePawn::MoveRightInput(float Val)
+{
+	// Is there any input?
+	bool bHasInput = !FMath::IsNearlyEqual(Val, 0.f);
+	// If input is not held down, reduce speed
+	float CurrentAcc;
+	if (bHasInput)
+		CurrentAcc = Val * Acceleration;
+	else
+		CurrentAcc = CurrentRightSpeed > 0.f ? (-DecelerationRate * Acceleration) : (DecelerationRate * Acceleration);
+	// Calculate new speed
+	float NewRightSpeed = CurrentRightSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
+	// Clamp between MinSpeed and MaxSpeed
+	CurrentRightSpeed = FMath::Clamp(NewRightSpeed, MinSpeed, MaxSpeed);
+}
+
+void AFiftyMinInsidePawn::LookUpInput(float Val)
 {
 	// Target pitch speed is based in input
 	float TargetPitchSpeed = (Val * TurnSpeed * -1.f);
@@ -111,9 +134,10 @@ void AFiftyMinInsidePawn::MoveUpInput(float Val)
 
 	// Smoothly interpolate to target pitch speed
 	CurrentPitchSpeed = FMath::FInterpTo(CurrentPitchSpeed, TargetPitchSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
+
 }
 
-void AFiftyMinInsidePawn::MoveRightInput(float Val)
+void AFiftyMinInsidePawn::TurnInput(float Val)
 {
 	// Target yaw speed is based on input
 	float TargetYawSpeed = (Val * TurnSpeed);
@@ -130,4 +154,5 @@ void AFiftyMinInsidePawn::MoveRightInput(float Val)
 
 	// Smoothly interpolate roll speed
 	CurrentRollSpeed = FMath::FInterpTo(CurrentRollSpeed, TargetRollSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
+
 }

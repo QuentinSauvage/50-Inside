@@ -39,16 +39,26 @@ protected:
 	void ThrustInput(float Val);
 	
 	/** Bound to the vertical axis */
-	void MoveUpInput(float Val);
+	void MoveForwardInput(float Val);
 
 	/** Bound to the horizontal axis */
 	void MoveRightInput(float Val);
+
+	/** Bound to the vertical axis */
+	void LookUpInput(float Val);
+
+	/** Bound to the horizontal axis */
+	void TurnInput(float Val);
 
 private:
 
 	/** How quickly forward speed changes */
 	UPROPERTY(Category=Plane, EditAnywhere)
 	float Acceleration;
+
+	/** How quickly forward speed changes */
+	UPROPERTY(Category = Plane, EditAnywhere)
+		float DecelerationRate;
 
 	/** How quickly pawn can steer */
 	UPROPERTY(Category=Plane, EditAnywhere)
@@ -64,6 +74,9 @@ private:
 
 	/** Current forward speed */
 	float CurrentForwardSpeed;
+
+	/** Current right speed */
+	float CurrentRightSpeed;
 
 	/** Current yaw speed */
 	float CurrentYawSpeed;
