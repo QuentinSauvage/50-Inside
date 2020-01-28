@@ -21,6 +21,10 @@ class AFiftyMinInsidePawn : public APawn
 	/** Camera component that will be our viewpoint */
 	UPROPERTY(Category = Camera, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* Camera;
+
+	UPROPERTY(EditAnywhere, Category = Armaments)
+	class AWeapon* MainWeapon;
+
 public:
 	AFiftyMinInsidePawn();
 
@@ -49,6 +53,10 @@ protected:
 
 	/** Bound to the horizontal axis */
 	void TurnInput(float Val);
+
+	void OnFire();
+
+	void StopFire();
 
 private:
 

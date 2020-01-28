@@ -8,6 +8,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Engine/World.h"
 #include "Engine/StaticMesh.h"
+#include "Weapon.h"
+
 
 AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 {
@@ -39,6 +41,8 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera0"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);	// Attach the camera
 	Camera->bUsePawnControlRotation = false; // Don't rotate camera with controller
+
+	MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("Weapon0"));
 
 	// Set handling parameters
 	Acceleration = 1500.f;
@@ -90,6 +94,10 @@ void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFiftyMinInsidePawn::MoveRightInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &AFiftyMinInsidePawn::LookUpInput);
 	PlayerInputComponent->BindAxis("Turn", this, &AFiftyMinInsidePawn::TurnInput);
+	
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFiftyMinInsidePawn::OnFire);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFiftyMinInsidePawn::StopFire);
+
 }
 
 void AFiftyMinInsidePawn::MoveForwardInput(float Val)
@@ -155,4 +163,14 @@ void AFiftyMinInsidePawn::TurnInput(float Val)
 	// Smoothly interpolate roll speed
 	CurrentRollSpeed = FMath::FInterpTo(CurrentRollSpeed, TargetRollSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
 
+}
+
+void AFiftyMinInsidePawn::OnFire()
+{
+	MainWeapon->Fire();
+}
+
+void AFiftyMinInsidePawn::StopFire()
+{
+	MainWeapon->StopFire();
 }
