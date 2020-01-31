@@ -23,7 +23,12 @@ class AFiftyMinInsidePawn : public APawn
 	class UCameraComponent* Camera;
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
-	class AWeapon* MainWeapon;
+		class AWeapon* MainWeapon;
+
+public:
+	/** Weapon Class*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
+		TSubclassOf<AWeapon> WeaponClass;
 
 public:
 	AFiftyMinInsidePawn();
