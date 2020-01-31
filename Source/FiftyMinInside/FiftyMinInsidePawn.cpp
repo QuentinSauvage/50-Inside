@@ -42,8 +42,6 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);	// Attach the camera
 	Camera->bUsePawnControlRotation = false; // Don't rotate camera with controller
 
-	MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("Weapon0"));
-
 	// Set handling parameters
 	Acceleration = 1500.f;
 	DecelerationRate = 1.5f;
@@ -83,6 +81,19 @@ void AFiftyMinInsidePawn::NotifyHit(class UPrimitiveComponent* MyComp, class AAc
 	SetActorRotation(FQuat::Slerp(CurrentRotation.Quaternion(), HitNormal.ToOrientationQuat(), 0.025f));
 }
 
+
+void AFiftyMinInsidePawn::BeginPlay()
+{
+	Super::BeginPlay();
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	MainWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+	if (!MainWeapon)
+		MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("Weapon0"));
+
+	MainWeapon->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+}
 
 void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {

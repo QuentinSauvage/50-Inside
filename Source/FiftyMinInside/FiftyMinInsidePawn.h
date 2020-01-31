@@ -40,6 +40,8 @@ public:
 
 protected:
 
+	virtual void BeginPlay();
+
 	// Begin APawn overrides
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override; // Allows binding actions/axes to functions
 	// End APawn overrides
