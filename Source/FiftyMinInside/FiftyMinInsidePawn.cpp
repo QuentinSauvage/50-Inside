@@ -94,7 +94,8 @@ void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFiftyMinInsidePawn::MoveRightInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &AFiftyMinInsidePawn::LookUpInput);
 	PlayerInputComponent->BindAxis("Turn", this, &AFiftyMinInsidePawn::TurnInput);
-	
+	PlayerInputComponent->BindAxis("Roll", this, &AFiftyMinInsidePawn::RollInput);
+
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFiftyMinInsidePawn::OnFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFiftyMinInsidePawn::StopFire);
 
@@ -135,10 +136,7 @@ void AFiftyMinInsidePawn::MoveRightInput(float Val)
 void AFiftyMinInsidePawn::LookUpInput(float Val)
 {
 	// Target pitch speed is based in input
-	float TargetPitchSpeed = (Val * TurnSpeed * -1.f);
-
-	// When steering, we decrease pitch slightly
-	TargetPitchSpeed += (FMath::Abs(CurrentYawSpeed) * -0.2f);
+	float TargetPitchSpeed = (Val * TurnSpeed);
 
 	// Smoothly interpolate to target pitch speed
 	CurrentPitchSpeed = FMath::FInterpTo(CurrentPitchSpeed, TargetPitchSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
@@ -153,16 +151,15 @@ void AFiftyMinInsidePawn::TurnInput(float Val)
 	// Smoothly interpolate to target yaw speed
 	CurrentYawSpeed = FMath::FInterpTo(CurrentYawSpeed, TargetYawSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
 
-	// Is there any left/right input?
-	const bool bIsTurning = FMath::Abs(Val) > 0.2f;
+}
 
-	// If turning, yaw value is used to influence roll
-	// If not turning, roll to reverse current roll value.
-	float TargetRollSpeed = bIsTurning ? (CurrentYawSpeed * 0.5f) : (GetActorRotation().Roll * -2.f);
+void AFiftyMinInsidePawn::RollInput(float Val)
+{
+	// Target yaw speed is based on input
+	float TargetRollSpeed = (Val * TurnSpeed);
 
-	// Smoothly interpolate roll speed
+	// Smoothly interpolate to target yaw speed
 	CurrentRollSpeed = FMath::FInterpTo(CurrentRollSpeed, TargetRollSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
-
 }
 
 void AFiftyMinInsidePawn::OnFire()

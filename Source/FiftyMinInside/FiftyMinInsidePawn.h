@@ -54,6 +54,9 @@ protected:
 	/** Bound to the horizontal axis */
 	void TurnInput(float Val);
 
+	/** Bound to the z axis */
+	void RollInput(float Val);
+
 	void OnFire();
 
 	void StopFire();
