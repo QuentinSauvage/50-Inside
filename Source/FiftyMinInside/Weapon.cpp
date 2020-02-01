@@ -1,4 +1,6 @@
 #include "Weapon.h"
+#include "Bullet.h"
+#include "Engine/World.h"
 #include "TimerManager.h"
 
 AWeapon::AWeapon()
@@ -28,7 +30,22 @@ bool AWeapon::CanFire() {
 
 void AWeapon::FireProjectile()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew!"));
+	if (BulletClass)
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew!"));
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.bNoFail = true;
+		SpawnParams.Owner = this;
+
+		FTransform BulletTransform;
+		BulletTransform.SetLocation(GetActorForwardVector() * 200.f + GetActorLocation());
+		BulletTransform.SetRotation(GetActorRotation().Quaternion());
+		BulletTransform.SetScale3D(FVector(1.f));
+
+		GetWorld()->SpawnActor <ABullet>(BulletClass, BulletTransform, SpawnParams);
+	}
 
 	if (bTryFire)
 	{

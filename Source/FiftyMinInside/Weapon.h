@@ -38,5 +38,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 		float DelayBetweenShots;
 	FTimerHandle TimeHandleFiring;
+	UPROPERTY(EditAnywhere, Category = "Bullet")
+	TSubclassOf<class ABullet> BulletClass;
 
 };
