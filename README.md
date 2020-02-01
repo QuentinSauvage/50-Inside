@@ -10,14 +10,14 @@ https://trello.com/b/eHcCihqj/50-inside
 
 ### Enemies
 
-![drone_1](Screenshots/Drone_1.png)
+![drone_1](Screenshots/Drone_1.PNG)
 
-![drone_2](Screenshots/Drone_2.png)
+![drone_2](Screenshots/Drone_2.PNG)
 
-![drone_3](Screenshots/Drone_3.png)
+![drone_3](Screenshots/Drone_3.PNG)
 
-![drone_4](Screenshots/Drone_4.png)
+![drone_4](Screenshots/Drone_4.PNG)
 
-![drone_5](Screenshots/Drone_5.png)
+![drone_5](Screenshots/Drone_5.PNG)
 
-![drone_6](Screenshots/Drone_6.png)
+![drone_6](Screenshots/Drone_6.PNG)
