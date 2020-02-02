@@ -10,8 +10,8 @@ UCLASS()
 class FIFTYMININSIDE_API AWeapon : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AWeapon();
 
@@ -34,11 +34,21 @@ public:
 
 protected:
 	bool bTryFire;
+
 	float LastFire;
+
 	UPROPERTY(EditAnywhere)
-		float DelayBetweenShots;
+	float DelayBetweenShots;
+
 	FTimerHandle TimeHandleFiring;
+
 	UPROPERTY(EditAnywhere, Category = "Bullet")
 	TSubclassOf<class ABullet> BulletClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
+	bool bUseMunition;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
+	int MunitionCount;
 
 };

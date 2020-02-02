@@ -10,6 +10,9 @@ AWeapon::AWeapon()
 	bTryFire = false;
 	LastFire = 0.0f;
 	DelayBetweenShots = 0.4f;
+
+	bUseMunition = false;
+	MunitionCount = 5;
 }
 
 
@@ -32,6 +35,13 @@ void AWeapon::FireProjectile()
 {
 	if (BulletClass)
 	{
+		if (bUseMunition)
+		{
+			if (MunitionCount == 0) {
+				return;
+			}
+			--MunitionCount;
+		}
 		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew!"));
 
 		FActorSpawnParameters SpawnParams;
