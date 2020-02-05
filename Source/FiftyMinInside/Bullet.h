@@ -28,6 +28,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Object")
 	float Speed;
 
+	UPROPERTY(EditAnywhere, Category = Damage)
+	TSubclassOf<UDamageType> DamageType;
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

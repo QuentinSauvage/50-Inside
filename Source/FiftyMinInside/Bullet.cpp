@@ -4,6 +4,8 @@
 #include "Bullet.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine/StaticMesh.h"
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 ABullet::ABullet()
@@ -43,6 +45,14 @@ void ABullet::Tick(float DeltaTime)
 void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew!"));
+	if (OtherActor && OtherActor != this) {
+		APawn* Pawn = Cast<APawn>(OtherActor);
+		if (Pawn) {
+			float DamageDealed = UGameplayStatics::ApplyPointDamage(OtherActor, 10.0, GetActorLocation(), Hit, nullptr, this, DamageType);
+		}
+	}
+
+	
 	Destroy();
 }
 

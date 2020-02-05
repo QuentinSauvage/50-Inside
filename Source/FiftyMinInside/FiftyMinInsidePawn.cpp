@@ -50,6 +50,12 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	MinSpeed = -3000.f;
 	CurrentForwardSpeed = 0.f;
 	CurrentRightSpeed = 0.f;
+
+	// Set Health parameters
+	FullHealth = 100.0f;
+	RemainingHealth = FullHealth;
+	PercentageHealth = 1.0f;
+
 }
 
 void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
@@ -181,4 +187,18 @@ void AFiftyMinInsidePawn::OnFire()
 void AFiftyMinInsidePawn::StopFire()
 {
 	MainWeapon->StopFire();
+}
+
+float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	UpdateHealth(-DamageAmount);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player new health %f "), RemainingHealth));
+	return DamageAmount;
+}
+
+void AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
+{
+	RemainingHealth += HealthChange;
+	RemainingHealth = FMath::Clamp(RemainingHealth, 0.0f, FullHealth);
+	PercentageHealth = RemainingHealth / FullHealth;
 }
