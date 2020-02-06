@@ -3,6 +3,7 @@
 
 #include "PickUp.h"
 #include "Components/SphereComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -29,7 +30,7 @@ APickUp::APickUp()
 void APickUp::BeginPlay()
 {
 	Super::BeginPlay();
-	Mesh->SetMaterial(0, Material);
+	Mesh->SetMaterial(0, Cast<UMaterialInterface>(Material));
 
 }
 

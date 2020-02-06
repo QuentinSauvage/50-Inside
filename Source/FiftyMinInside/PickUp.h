@@ -20,7 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = "Mesh")
-		UStaticMeshComponent* Mesh;
+		class UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class UMaterial* Material;
