@@ -5,7 +5,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "BulletExplosion.h"
 
 // Sets default values
 ABullet::ABullet()
@@ -44,12 +44,23 @@ void ABullet::Tick(float DeltaTime)
 
 void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew!"));
 	if (OtherActor && OtherActor != this) {
 		APawn* Pawn = Cast<APawn>(OtherActor);
 		if (Pawn) {
 			float DamageDealed = UGameplayStatics::ApplyPointDamage(OtherActor, 10.0, GetActorLocation(), Hit, nullptr, this, DamageType);
 		}
+	}
+	if (BulletExplosion)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.bNoFail = true;
+
+		FTransform ExplosionTransform;
+		ExplosionTransform.SetLocation(GetActorLocation());
+
+		ABulletExplosion* Explosion = GetWorld()->SpawnActor <ABulletExplosion>(BulletExplosion, ExplosionTransform, SpawnParams);
+		Explosion->Init(DamageType);
 	}
 
 	

@@ -31,6 +31,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Damage)
 	TSubclassOf<UDamageType> DamageType;
 
+	UPROPERTY(EditAnywhere, Category = Damage)
+	TSubclassOf<class ABulletExplosion> BulletExplosion;
+
 
 public:	
 	// Called every frame

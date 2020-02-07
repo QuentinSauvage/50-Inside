@@ -10,8 +10,8 @@ UCLASS(ABSTRACT)
 class FIFTYMININSIDE_API APickUp : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	APickUp();
 
@@ -26,11 +26,11 @@ protected:
 		class UMaterial* Material;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-		class USphereComponent* SphereCollision;
+		class USphereComponent* Collision;
 
 	float Radius;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
