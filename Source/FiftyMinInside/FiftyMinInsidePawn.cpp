@@ -94,11 +94,31 @@ void AFiftyMinInsidePawn::BeginPlay()
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	MainWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-	if (!MainWeapon)
-		MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("Weapon0"));
 
-	MainWeapon->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	RocketLauncher = GetWorld()->SpawnActor<AWeapon>(RocketClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+	if (!RocketLauncher)
+		RocketLauncher = CreateDefaultSubobject<AWeapon>(TEXT("WeaponSpecial"));
+	RocketLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	FVector RocketLauncherOffset = RocketLauncher->GetActorLocation();
+	RocketLauncherOffset.X += 100.f;
+	RocketLauncherOffset.Z -= 25.f;
+	RocketLauncher->SetActorLocation(RocketLauncherOffset);
+
+	MainWeaponLeft = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+	if (!MainWeaponLeft)
+		MainWeaponLeft = CreateDefaultSubobject<AWeapon>(TEXT("WeaponLeft"));
+	MainWeaponLeft->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	FVector MainWeaponLeftOffset = RocketLauncherOffset;
+	MainWeaponLeftOffset.Y -= 70.f;
+	MainWeaponLeft->SetActorLocation(MainWeaponLeftOffset);
+
+	MainWeaponRight = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+	if (!MainWeaponRight)
+		MainWeaponRight = CreateDefaultSubobject<AWeapon>(TEXT("WeaponRight"));
+	MainWeaponRight->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	FVector MainWeaponRightOffset = RocketLauncherOffset;
+	MainWeaponRightOffset.Y += 70.f;
+	MainWeaponRight->SetActorLocation(MainWeaponRightOffset);
 }
 
 void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -115,6 +135,8 @@ void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFiftyMinInsidePawn::OnFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFiftyMinInsidePawn::StopFire);
+	PlayerInputComponent->BindAction("FireSpecial", IE_Pressed, this, &AFiftyMinInsidePawn::OnFireSpecial);
+	PlayerInputComponent->BindAction("FireSpecial", IE_Released, this, &AFiftyMinInsidePawn::StopFireSpecial);
 
 }
 
@@ -181,12 +203,25 @@ void AFiftyMinInsidePawn::RollInput(float Val)
 
 void AFiftyMinInsidePawn::OnFire()
 {
-	MainWeapon->Fire();
+	MainWeaponLeft->Fire();
+	MainWeaponRight->Fire();
 }
 
 void AFiftyMinInsidePawn::StopFire()
 {
-	MainWeapon->StopFire();
+	MainWeaponLeft->StopFire();
+	MainWeaponRight->StopFire();
+}
+
+
+void AFiftyMinInsidePawn::OnFireSpecial()
+{
+	RocketLauncher->Fire();
+}
+
+void AFiftyMinInsidePawn::StopFireSpecial()
+{
+	RocketLauncher->StopFire();
 }
 
 float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

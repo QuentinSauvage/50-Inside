@@ -27,7 +27,7 @@ protected:
 		class USphereComponent* Collision;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-		UStaticMeshComponent* Mesh;
+		class UStaticMeshComponent* Mesh;
 
 public:
 	// Called every frame

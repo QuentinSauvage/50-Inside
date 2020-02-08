@@ -23,12 +23,21 @@ class AFiftyMinInsidePawn : public APawn
 		class UCameraComponent* Camera;
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
-		class AWeapon* MainWeapon;
+		class AWeapon* MainWeaponLeft;
+
+	UPROPERTY(EditAnywhere, Category = Armaments)
+		class AWeapon* MainWeaponRight;
+
+	UPROPERTY(EditAnywhere, Category = Armaments)
+		class AWeapon* RocketLauncher;
 
 public:
 	/** Weapon Class*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
 		TSubclassOf<AWeapon> WeaponClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
+		TSubclassOf<AWeapon> RocketClass;
 
 public:
 	AFiftyMinInsidePawn();
@@ -64,6 +73,10 @@ protected:
 	void OnFire();
 
 	void StopFire();
+
+	void OnFireSpecial();
+
+	void StopFireSpecial();
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 

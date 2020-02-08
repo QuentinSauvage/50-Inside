@@ -20,7 +20,6 @@ void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 	LastFire = DelayBetweenShots;
-
 }
 
 
@@ -52,7 +51,7 @@ void AWeapon::FireProjectile()
 		SpawnParams.Owner = this;
 
 		FTransform BulletTransform;
-		BulletTransform.SetLocation(GetActorForwardVector() * 200.f + GetActorLocation());
+		BulletTransform.SetLocation(GetActorLocation());
 		BulletTransform.SetRotation(GetActorRotation().Quaternion());
 		BulletTransform.SetScale3D(FVector(1.f));
 
