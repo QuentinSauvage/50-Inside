@@ -100,7 +100,7 @@ void AFiftyMinInsidePawn::BeginPlay()
 		RocketLauncher = CreateDefaultSubobject<AWeapon>(TEXT("WeaponSpecial"));
 	RocketLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 	FVector RocketLauncherOffset = RocketLauncher->GetActorLocation();
-	RocketLauncherOffset.X += 100.f;
+	RocketLauncherOffset.X += 170.f;
 	RocketLauncherOffset.Z -= 25.f;
 	RocketLauncher->SetActorLocation(RocketLauncherOffset);
 
