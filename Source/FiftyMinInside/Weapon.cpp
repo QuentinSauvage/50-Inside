@@ -8,6 +8,7 @@ AWeapon::AWeapon()
 	PrimaryActorTick.bCanEverTick = true;
 
 	bTryFire = false;
+	bFireLeft = false;
 	LastFire = 0.0f;
 	DelayBetweenShots = 0.4f;
 
@@ -50,8 +51,14 @@ void AWeapon::FireProjectile()
 		SpawnParams.bNoFail = true;
 		SpawnParams.Owner = this;
 
+		FVector Offset = GetActorLocation();
+		if (bAltern)
+		{
+			Offset.Y += (bFireLeft) ? -70.f : 70.f;
+			bFireLeft = !bFireLeft;
+		}
 		FTransform BulletTransform;
-		BulletTransform.SetLocation(GetActorLocation());
+		BulletTransform.SetLocation(Offset);
 		BulletTransform.SetRotation(GetActorRotation().Quaternion());
 		BulletTransform.SetScale3D(FVector(1.f));
 

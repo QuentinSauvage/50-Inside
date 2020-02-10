@@ -130,6 +130,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Health)
 		float PercentageHealth;
 
+	/** RocketLauncher that is shooting */
+	bool bLeftSpecialShooting;
+
 public:
 	/** Returns PlaneMesh subobject **/
 	FORCEINLINE class UStaticMeshComponent* GetPlaneMesh() const { return PlaneMesh; }
