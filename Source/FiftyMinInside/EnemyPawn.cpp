@@ -33,6 +33,21 @@ AEnemyPawn::AEnemyPawn()
 	FullHealth = 100.0f;
 	RemainingHealth = FullHealth;
 
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationRoll = true;
+	bUseControllerRotationYaw = true;
+
+}
+
+void AEnemyPawn::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	const FVector LocalMove = FVector(500 * DeltaTime, 0.f, 0.f);
+
+	// Move plan forwards (with sweep so we stop when we collide with things)
+	//AddActorLocalOffset(LocalMove, true);
+
 }
 
 // Called when the game starts or when spawned
@@ -48,10 +63,6 @@ void AEnemyPawn::BeginPlay()
 		MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
 	MainWeapon->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 }
-
-
-
-
 
 
 float AEnemyPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
