@@ -35,6 +35,9 @@ public:
 protected:
 	bool bTryFire;
 
+	/** If bAltern set to true, indicates which side is firing */
+	bool bFireLeft;
+
 	float LastFire;
 
 	UPROPERTY(EditAnywhere)
@@ -47,6 +50,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
 	bool bUseMunition;
+
+	/** Should the weapon change its spawn of bullet each time */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
+	bool bAltern;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
 	int MunitionCount;

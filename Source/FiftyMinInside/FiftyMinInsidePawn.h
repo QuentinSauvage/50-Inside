@@ -31,6 +31,9 @@ class AFiftyMinInsidePawn : public APawn
 	UPROPERTY(EditAnywhere, Category = Armaments)
 		class AWeapon* RocketLauncher;
 
+	UPROPERTY(EditAnywhere, Category = Armaments)
+		class AWeapon* FlareLauncher;
+
 public:
 	/** Weapon Class*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
@@ -38,6 +41,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
 		TSubclassOf<AWeapon> RocketClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
+		TSubclassOf<AWeapon> FlareClass;
 
 public:
 	AFiftyMinInsidePawn();
@@ -77,6 +83,10 @@ protected:
 	void OnFireSpecial();
 
 	void StopFireSpecial();
+
+	void OnFireFlare();
+
+	void StopFireFlare();
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
@@ -129,6 +139,9 @@ private:
 	/** Remaining health*/
 	UPROPERTY(EditAnywhere, Category = Health)
 		float PercentageHealth;
+
+	/** RocketLauncher that is shooting */
+	bool bLeftSpecialShooting;
 
 public:
 	/** Returns PlaneMesh subobject **/

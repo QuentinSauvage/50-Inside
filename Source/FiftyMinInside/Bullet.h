@@ -34,12 +34,17 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Damage)
 	TSubclassOf<class ABulletExplosion> BulletExplosion;
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+	class UMaterial* Material;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	bool bSticky;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+	virtual void OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
 };
