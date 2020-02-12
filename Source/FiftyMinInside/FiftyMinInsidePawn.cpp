@@ -100,9 +100,15 @@ void AFiftyMinInsidePawn::BeginPlay()
 		RocketLauncher = CreateDefaultSubobject<AWeapon>(TEXT("WeaponSpecial"));
 	RocketLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 	FVector RocketLauncherOffset = RocketLauncher->GetActorLocation();
-	RocketLauncherOffset.X += 100.f;
+	RocketLauncherOffset.X += 200.f;
 	RocketLauncherOffset.Z -= 25.f;
 	RocketLauncher->SetActorLocation(RocketLauncherOffset);
+
+	FlareLauncher = GetWorld()->SpawnActor<AWeapon>(FlareClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+	if (!FlareLauncher)
+		FlareLauncher = CreateDefaultSubobject<AWeapon>(TEXT("WeaponSpecial"));
+	FlareLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	FlareLauncher->SetActorLocation(RocketLauncherOffset);
 
 	MainWeaponLeft = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 	if (!MainWeaponLeft)
@@ -137,6 +143,8 @@ void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFiftyMinInsidePawn::StopFire);
 	PlayerInputComponent->BindAction("FireSpecial", IE_Pressed, this, &AFiftyMinInsidePawn::OnFireSpecial);
 	PlayerInputComponent->BindAction("FireSpecial", IE_Released, this, &AFiftyMinInsidePawn::StopFireSpecial);
+	PlayerInputComponent->BindAction("FireFlare", IE_Pressed, this, &AFiftyMinInsidePawn::OnFireFlare);
+	PlayerInputComponent->BindAction("FireFlare", IE_Released, this, &AFiftyMinInsidePawn::StopFireFlare);
 
 }
 
@@ -222,6 +230,16 @@ void AFiftyMinInsidePawn::OnFireSpecial()
 void AFiftyMinInsidePawn::StopFireSpecial()
 {
 	RocketLauncher->StopFire();
+}
+
+void AFiftyMinInsidePawn::OnFireFlare()
+{
+	FlareLauncher->Fire();
+}
+
+void AFiftyMinInsidePawn::StopFireFlare()
+{
+	FlareLauncher->StopFire();
 }
 
 float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

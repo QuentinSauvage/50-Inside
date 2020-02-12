@@ -24,6 +24,8 @@ ABullet::ABullet()
 	BulletMovement->bRotationFollowsVelocity = true;
 	BulletMovement->ProjectileGravityScale = 0.f;
 
+	Material = CreateDefaultSubobject<UMaterial>("Material");
+
 	OnActorHit.AddDynamic(this, &ABullet::OnBulletHit);
 	InitialLifeSpan = 5.0f;
 }
@@ -32,6 +34,7 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
+	BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(Material));
 	
 }
 
@@ -39,12 +42,20 @@ void ABullet::BeginPlay()
 void ABullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if (OtherActor && OtherActor != this) {
+		if (bSticky)
+		{
+			ABullet* Bullet = Cast<ABullet>(OtherActor);
+			if (Bullet) {
+				Destroy();
+			}
+			BulletMovement->StopMovementImmediately();
+			return;
+		}
 		APawn* Pawn = Cast<APawn>(OtherActor);
 		if (Pawn) {
 			float DamageDealed = UGameplayStatics::ApplyPointDamage(OtherActor, 10.0, GetActorLocation(), Hit, nullptr, this, DamageType);
@@ -55,15 +66,12 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.bNoFail = true;
-
 		FTransform ExplosionTransform;
 		ExplosionTransform.SetLocation(GetActorLocation());
-
 		ABulletExplosion* Explosion = GetWorld()->SpawnActor <ABulletExplosion>(BulletExplosion, ExplosionTransform, SpawnParams);
 		Explosion->Init(DamageType);
 	}
 
-	
 	Destroy();
 }
 
