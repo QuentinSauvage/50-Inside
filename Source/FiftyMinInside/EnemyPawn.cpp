@@ -33,9 +33,9 @@ AEnemyPawn::AEnemyPawn()
 	FullHealth = 100.0f;
 	RemainingHealth = FullHealth;
 
-	bUseControllerRotationPitch = true;
-	bUseControllerRotationRoll = true;
-	bUseControllerRotationYaw = true;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
 
 }
 
@@ -43,10 +43,14 @@ void AEnemyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	const FVector LocalMove = FVector(500 * DeltaTime, 0.f, 0.f);
+	const FVector LocalMove = FVector(0.f, 500 * DeltaTime, 0.f);
 
 	// Move plan forwards (with sweep so we stop when we collide with things)
-	//AddActorLocalOffset(LocalMove, true);
+	AddActorLocalOffset(LocalMove, true);
+	
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, GetActorRotation().ToString());
+
 
 }
 

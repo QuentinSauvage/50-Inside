@@ -61,10 +61,12 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 {
 	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaSeconds, CurrentRightSpeed * DeltaSeconds, 0.f);
+	if (!LocalMove.IsNearlyZero(0.5f)) {
+		// Move plan forwards (with sweep so we stop when we collide with things)
+		AddActorLocalOffset(LocalMove, true);
+	}
 
-	// Move plan forwards (with sweep so we stop when we collide with things)
-	AddActorLocalOffset(LocalMove, true);
-
+	
 	// Calculate change in rotation this frame
 	FRotator DeltaRotation(0, 0, 0);
 	DeltaRotation.Pitch = CurrentPitchSpeed * DeltaSeconds;
