@@ -155,5 +155,5 @@ public:
 		FORCEINLINE float GetHealth() const { return PercentageHealth; }
 
 	UFUNCTION(BlueprintCallable, Category = Health)
-		void UpdateHealth(float HealthChange);
+		float UpdateHealth(float HealthChange);
 };
