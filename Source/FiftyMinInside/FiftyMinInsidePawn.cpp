@@ -251,9 +251,10 @@ float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& Da
 	return DamageAmount;
 }
 
-void AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
+float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 {
 	RemainingHealth += HealthChange;
 	RemainingHealth = FMath::Clamp(RemainingHealth, 0.0f, FullHealth);
 	PercentageHealth = RemainingHealth / FullHealth;
+	return RemainingHealth;
 }
