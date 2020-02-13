@@ -50,7 +50,7 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		if (bSticky)
 		{
 			ABullet* Bullet = Cast<ABullet>(OtherActor);
-			if (Bullet) {
+			if (Bullet && BulletMovement->Velocity != FVector::ZeroVector) {
 				Destroy();
 			}
 			BulletMovement->StopMovementImmediately();
