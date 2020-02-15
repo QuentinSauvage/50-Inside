@@ -40,6 +40,9 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	void OnFire();
+
+	void StopFire();
 
 protected:
 	// Called when the game starts or when spawned

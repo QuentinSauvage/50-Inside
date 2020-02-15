@@ -36,7 +36,6 @@ AEnemyPawn::AEnemyPawn()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
-
 }
 
 void AEnemyPawn::Tick(float DeltaTime)
@@ -47,11 +46,6 @@ void AEnemyPawn::Tick(float DeltaTime)
 
 	// Move plan forwards (with sweep so we stop when we collide with things)
 	AddActorLocalOffset(LocalMove, true);
-	
-	
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, GetActorRotation().ToString());
-
-
 }
 
 // Called when the game starts or when spawned
@@ -66,6 +60,10 @@ void AEnemyPawn::BeginPlay()
 	if (!MainWeapon)
 		MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
 	MainWeapon->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	FVector MainWeaponOffset = MainWeapon->GetActorLocation();
+	MainWeaponOffset.X += 200.f;
+	MainWeaponOffset.Z -= 25.f;
+	MainWeapon->SetActorLocation(MainWeaponOffset);
 }
 
 
@@ -81,5 +79,20 @@ void AEnemyPawn::UpdateHealth(float HealthChange)
 	RemainingHealth += HealthChange;
 	RemainingHealth = FMath::Clamp(RemainingHealth, 0.0f, FullHealth);
 	//PercentageHealth = RemainingHealth / FullHealth;
+	if (RemainingHealth == 0.0f)
+	{
+		MainWeapon->Destroy();
+		Destroy();
+	}
+}
+
+void AEnemyPawn::OnFire()
+{
+	MainWeapon->Fire();
+}
+
+void AEnemyPawn::StopFire()
+{
+	MainWeapon->StopFire();
 }
 
