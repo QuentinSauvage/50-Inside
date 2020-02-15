@@ -29,6 +29,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class UStaticMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+		FVector MaxExplosion;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		float TimeToLive;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
