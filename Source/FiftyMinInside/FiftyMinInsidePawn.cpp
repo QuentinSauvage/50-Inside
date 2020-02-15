@@ -50,6 +50,7 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	MinSpeed = -3000.f;
 	CurrentForwardSpeed = 0.f;
 	CurrentRightSpeed = 0.f;
+	CurrentUpSpeed = 0.f;
 
 	// Set Health parameters
 	FullHealth = 100.0f;
@@ -60,7 +61,7 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 
 void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 {
-	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaSeconds, CurrentRightSpeed * DeltaSeconds, 0.f);
+	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaSeconds, CurrentRightSpeed * DeltaSeconds, CurrentUpSpeed * DeltaSeconds);
 	if (!LocalMove.IsNearlyZero(0.5f)) {
 		// Move plan forwards (with sweep so we stop when we collide with things)
 		AddActorLocalOffset(LocalMove, true);
@@ -137,6 +138,7 @@ void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* Playe
 	// Bind our control axis' to callback functions
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFiftyMinInsidePawn::MoveForwardInput);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFiftyMinInsidePawn::MoveRightInput);
+	PlayerInputComponent->BindAxis("MoveUp", this, &AFiftyMinInsidePawn::MoveUpInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &AFiftyMinInsidePawn::LookUpInput);
 	PlayerInputComponent->BindAxis("Turn", this, &AFiftyMinInsidePawn::TurnInput);
 	PlayerInputComponent->BindAxis("Roll", this, &AFiftyMinInsidePawn::RollInput);
@@ -180,6 +182,22 @@ void AFiftyMinInsidePawn::MoveRightInput(float Val)
 	float NewRightSpeed = CurrentRightSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
 	// Clamp between MinSpeed and MaxSpeed
 	CurrentRightSpeed = FMath::Clamp(NewRightSpeed, MinSpeed, MaxSpeed);
+}
+
+void AFiftyMinInsidePawn::MoveUpInput(float Val)
+{
+	// Is there any input?
+	bool bHasInput = !FMath::IsNearlyEqual(Val, 0.f);
+	// If input is not held down, reduce speed
+	float CurrentAcc;
+	if (bHasInput)
+		CurrentAcc = Val * Acceleration;
+	else
+		CurrentAcc = CurrentUpSpeed > 0.f ? (-DecelerationRate * Acceleration) : (DecelerationRate * Acceleration);
+	// Calculate new speed
+	float NewRightSpeed = CurrentUpSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
+	// Clamp between MinSpeed and MaxSpeed
+	CurrentUpSpeed = FMath::Clamp(NewRightSpeed, MinSpeed, MaxSpeed);
 }
 
 void AFiftyMinInsidePawn::LookUpInput(float Val)

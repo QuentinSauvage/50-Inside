@@ -61,11 +61,14 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override; // Allows binding actions/axes to functions
 	// End APawn overrides
 
-	/** Bound to the vertical axis */
+	/** Bound to the X axis */
 	void MoveForwardInput(float Val);
 
-	/** Bound to the horizontal axis */
+	/** Bound to the Y axis */
 	void MoveRightInput(float Val);
+
+	/** Bound to the Z axis */
+	void MoveUpInput(float Val);
 
 	/** Bound to the vertical axis */
 	void LookUpInput(float Val);
@@ -118,6 +121,9 @@ private:
 
 	/** Current right speed */
 	float CurrentRightSpeed;
+
+	/** Current up speed */
+	float CurrentUpSpeed;
 
 	/** Current yaw speed */
 	float CurrentYawSpeed;
