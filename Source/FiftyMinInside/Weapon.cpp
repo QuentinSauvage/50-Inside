@@ -8,7 +8,6 @@ AWeapon::AWeapon()
 	PrimaryActorTick.bCanEverTick = true;
 
 	bTryFire = false;
-	bFireLeft = false;
 	LastFire = 0.0f;
 	DelayBetweenShots = 0.4f;
 
@@ -35,7 +34,7 @@ bool AWeapon::CanFire() {
 
 void AWeapon::FireProjectile()
 {
-	if (BulletClass)
+	/*if (BulletClass)
 	{
 		if (bUseMunition)
 		{
@@ -57,20 +56,12 @@ void AWeapon::FireProjectile()
 			Offset.Y += (bFireLeft) ? -70.f : 70.f;
 			bFireLeft = !bFireLeft;
 		}
-		FTransform BulletTransform;
-		BulletTransform.SetLocation(Offset);
-		BulletTransform.SetRotation(GetActorRotation().Quaternion());
-		BulletTransform.SetScale3D(FVector(1.f));
+		
 
 		GetWorld()->SpawnActor <ABullet>(BulletClass, BulletTransform, SpawnParams);
 	}
 
-	if (bTryFire)
-	{
-		GetWorld()->GetTimerManager().SetTimer(TimeHandleFiring, this, &AWeapon::FireProjectile, DelayBetweenShots, false);
-	}
-
-	LastFire = GetWorld()->GetTimeSeconds();
+	*/
 }
 
 

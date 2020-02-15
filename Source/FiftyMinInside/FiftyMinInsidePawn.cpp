@@ -113,21 +113,13 @@ void AFiftyMinInsidePawn::BeginPlay()
 	FlareLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 	FlareLauncher->SetActorLocation(RocketLauncherOffset);
 
-	MainWeaponLeft = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-	if (!MainWeaponLeft)
-		MainWeaponLeft = CreateDefaultSubobject<AWeapon>(TEXT("WeaponLeft"));
-	MainWeaponLeft->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-	FVector MainWeaponLeftOffset = RocketLauncherOffset;
-	MainWeaponLeftOffset.Y -= 70.f;
-	MainWeaponLeft->SetActorLocation(MainWeaponLeftOffset);
-
-	MainWeaponRight = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-	if (!MainWeaponRight)
-		MainWeaponRight = CreateDefaultSubobject<AWeapon>(TEXT("WeaponRight"));
-	MainWeaponRight->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-	FVector MainWeaponRightOffset = RocketLauncherOffset;
-	MainWeaponRightOffset.Y += 70.f;
-	MainWeaponRight->SetActorLocation(MainWeaponRightOffset);
+	MainWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+	if (!MainWeapon)
+		MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("MainWeapon"));
+	MainWeapon->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	FVector MainWeaponOffset = RocketLauncherOffset;
+	//MainWeaponLeftOffset.Y -= 70.f;
+	MainWeapon->SetActorLocation(MainWeaponOffset);
 }
 
 void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -231,14 +223,14 @@ void AFiftyMinInsidePawn::RollInput(float Val)
 
 void AFiftyMinInsidePawn::OnFire()
 {
-	MainWeaponLeft->Fire();
-	MainWeaponRight->Fire();
+	MainWeapon->Fire();
+	MainWeapon->Fire();
 }
 
 void AFiftyMinInsidePawn::StopFire()
 {
-	MainWeaponLeft->StopFire();
-	MainWeaponRight->StopFire();
+	MainWeapon->StopFire();
+	MainWeapon->StopFire();
 }
 
 

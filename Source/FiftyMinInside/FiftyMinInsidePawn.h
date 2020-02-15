@@ -23,10 +23,7 @@ class AFiftyMinInsidePawn : public APawn
 		class UCameraComponent* Camera;
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
-		class AWeapon* MainWeaponLeft;
-
-	UPROPERTY(EditAnywhere, Category = Armaments)
-		class AWeapon* MainWeaponRight;
+		class AWeapon* MainWeapon;
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
 		class AWeapon* RocketLauncher;

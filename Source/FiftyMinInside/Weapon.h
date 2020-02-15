@@ -25,7 +25,7 @@ protected:
 
 	bool CanFire();
 
-	void FireProjectile();
+	virtual void FireProjectile();
 
 
 public:
@@ -34,9 +34,6 @@ public:
 
 protected:
 	bool bTryFire;
-
-	/** If bAltern set to true, indicates which side is firing */
-	bool bFireLeft;
 
 	float LastFire;
 
