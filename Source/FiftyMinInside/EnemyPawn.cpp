@@ -36,16 +36,16 @@ AEnemyPawn::AEnemyPawn()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+
+	FullSpeed = 500.0f;
 }
 
 void AEnemyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	const FVector LocalMove = FVector(0.f, 500 * DeltaTime, 0.f);
-
-	// Move plan forwards (with sweep so we stop when we collide with things)
+	const FVector LocalMove = CurrentDirection.GetSafeNormal() * FullSpeed * DeltaTime;
 	AddActorLocalOffset(LocalMove, true);
+
 }
 
 // Called when the game starts or when spawned

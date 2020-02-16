@@ -13,15 +13,7 @@
 #include "Kismet/KismetMathLibrary.h"
 
 
-UBTTask_Rotate3D::UBTTask_Rotate3D(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), lastPosition() {}
-
-
-void UBTTask_Rotate3D::PostInitProperties()
-{
-	Super::PostInitProperties();
-
-	PrecisionDot = FMath::Cos(FMath::DegreesToRadians(Precision));
-}
+UBTTask_Rotate3D::UBTTask_Rotate3D(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 
 EBTNodeResult::Type UBTTask_Rotate3D::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {

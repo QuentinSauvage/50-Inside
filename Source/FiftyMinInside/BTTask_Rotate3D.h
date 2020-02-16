@@ -17,17 +17,6 @@ class FIFTYMININSIDE_API UBTTask_Rotate3D : public UBTTask_RotateToFaceBBEntry
 public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
-	FVector lastPosition;
-
-	virtual void PostInitProperties() override;
-
 	UBTTask_Rotate3D(const FObjectInitializer& ObjectInitializer);
-
-
-private:
-	/** cached Precision tangent value */
-	float PrecisionDot;
-
-	float CalculateAngleDifferenceDot(const FVector& VectorA, const FVector& VectorB);
 
 };

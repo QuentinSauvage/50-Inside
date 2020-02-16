@@ -11,12 +11,12 @@ class FIFTYMININSIDE_API AEnemyPawn : public APawn
 {
 	GENERATED_BODY()
 
-	/** StaticMesh component that will be the visuals for our flying pawn */
-	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* PlaneMesh;
+		/** StaticMesh component that will be the visuals for our flying pawn */
+		UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* PlaneMesh;
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
-	class AWeapon* MainWeapon;
+		class AWeapon* MainWeapon;
 
 	/** Maximum health*/
 	UPROPERTY(EditAnywhere, Category = Health)
@@ -29,10 +29,15 @@ class FIFTYMININSIDE_API AEnemyPawn : public APawn
 public:
 	/** Weapon Class*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
-	TSubclassOf<AWeapon> WeaponClass;
+		TSubclassOf<AWeapon> WeaponClass;
 
 	UPROPERTY(EditAnywhere, Category = Behavior)
 		class UBehaviorTree* Behavior;
+
+	UPROPERTY(EditAnywhere, Category = Movement)
+		float FullSpeed;
+
+	FVector CurrentDirection;
 
 public:
 	// Sets default values for this pawn's properties
@@ -51,6 +56,6 @@ protected:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	UFUNCTION(BlueprintCallable, Category = Health)
-	void UpdateHealth(float HealthChange);
+		void UpdateHealth(float HealthChange);
 
 };
