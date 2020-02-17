@@ -28,6 +28,11 @@ void AWeapon::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+float AWeapon::GetMunitionCount()
+{
+	return MunitionCount;
+}
+
 bool AWeapon::CanFire() {
 	return !bTryFire;
 }

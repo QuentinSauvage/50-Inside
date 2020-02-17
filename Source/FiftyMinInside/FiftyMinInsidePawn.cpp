@@ -57,6 +57,8 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	RemainingHealth = FullHealth;
 	PercentageHealth = 1.0f;
 
+	SelectedWeapon = 0;
+
 }
 
 void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
@@ -113,13 +115,14 @@ void AFiftyMinInsidePawn::BeginPlay()
 	FlareLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 	FlareLauncher->SetActorLocation(RocketLauncherOffset);
 
-	MainWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-	if (!MainWeapon)
-		MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("MainWeapon"));
-	MainWeapon->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-	FVector MainWeaponOffset = RocketLauncherOffset;
-	//MainWeaponLeftOffset.Y -= 70.f;
-	MainWeapon->SetActorLocation(MainWeaponOffset);
+	for (int i = 0; i < WeaponsClass.Num(); ++i) {
+		WeaponsList[i] = GetWorld()->SpawnActor<AWeapon>(WeaponsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+		if (!WeaponsList[i])
+			WeaponsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
+		WeaponsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+		FVector WeaponOffset = RocketLauncherOffset;
+		WeaponsList[i]->SetActorLocation(WeaponOffset);
+	}
 }
 
 void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -135,12 +138,15 @@ void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAxis("Turn", this, &AFiftyMinInsidePawn::TurnInput);
 	PlayerInputComponent->BindAxis("Roll", this, &AFiftyMinInsidePawn::RollInput);
 
+
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFiftyMinInsidePawn::OnFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFiftyMinInsidePawn::StopFire);
 	PlayerInputComponent->BindAction("FireSpecial", IE_Pressed, this, &AFiftyMinInsidePawn::OnFireSpecial);
 	PlayerInputComponent->BindAction("FireSpecial", IE_Released, this, &AFiftyMinInsidePawn::StopFireSpecial);
 	PlayerInputComponent->BindAction("FireFlare", IE_Pressed, this, &AFiftyMinInsidePawn::OnFireFlare);
 	PlayerInputComponent->BindAction("FireFlare", IE_Released, this, &AFiftyMinInsidePawn::StopFireFlare);
+	PlayerInputComponent->BindAction("NextWeapon", IE_Pressed, this, &AFiftyMinInsidePawn::OnNextWeapon);
+	PlayerInputComponent->BindAction("PreviousWeapon", IE_Released, this, &AFiftyMinInsidePawn::OnPreviousWeapon);
 
 }
 
@@ -223,14 +229,14 @@ void AFiftyMinInsidePawn::RollInput(float Val)
 
 void AFiftyMinInsidePawn::OnFire()
 {
-	MainWeapon->Fire();
-	MainWeapon->Fire();
+	WeaponsList[SelectedWeapon]->Fire();
+	WeaponsList[SelectedWeapon]->Fire();
 }
 
 void AFiftyMinInsidePawn::StopFire()
 {
-	MainWeapon->StopFire();
-	MainWeapon->StopFire();
+	WeaponsList[SelectedWeapon]->StopFire();
+	WeaponsList[SelectedWeapon]->StopFire();
 }
 
 
@@ -252,6 +258,22 @@ void AFiftyMinInsidePawn::OnFireFlare()
 void AFiftyMinInsidePawn::StopFireFlare()
 {
 	FlareLauncher->StopFire();
+}
+
+void AFiftyMinInsidePawn::OnNextWeapon()
+{
+	while (1) {
+		SelectedWeapon = (SelectedWeapon + 1) % WeaponsList.Num();
+		if (WeaponsList[SelectedWeapon]->GetMunitionCount() > 0 || SelectedWeapon == 0) break;
+	}
+}
+
+void AFiftyMinInsidePawn::OnPreviousWeapon()
+{
+	while (1) {
+		SelectedWeapon = (SelectedWeapon + WeaponsList.Num() - 1) % WeaponsList.Num();
+		if (WeaponsList[SelectedWeapon]->GetMunitionCount() > 0 || SelectedWeapon == 0) break;
+	}
 }
 
 float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
