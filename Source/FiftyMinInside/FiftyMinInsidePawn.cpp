@@ -230,12 +230,10 @@ void AFiftyMinInsidePawn::RollInput(float Val)
 void AFiftyMinInsidePawn::OnFire()
 {
 	WeaponsList[SelectedWeapon]->Fire();
-	WeaponsList[SelectedWeapon]->Fire();
 }
 
 void AFiftyMinInsidePawn::StopFire()
 {
-	WeaponsList[SelectedWeapon]->StopFire();
 	WeaponsList[SelectedWeapon]->StopFire();
 }
 
@@ -262,6 +260,7 @@ void AFiftyMinInsidePawn::StopFireFlare()
 
 void AFiftyMinInsidePawn::OnNextWeapon()
 {
+	WeaponsList[SelectedWeapon]->StopFire();
 	while (1) {
 		SelectedWeapon = (SelectedWeapon + 1) % WeaponsList.Num();
 		if (WeaponsList[SelectedWeapon]->GetMunitionCount() > 0 || SelectedWeapon == 0) break;
@@ -270,6 +269,7 @@ void AFiftyMinInsidePawn::OnNextWeapon()
 
 void AFiftyMinInsidePawn::OnPreviousWeapon()
 {
+	WeaponsList[SelectedWeapon]->StopFire();
 	while (1) {
 		SelectedWeapon = (SelectedWeapon + WeaponsList.Num() - 1) % WeaponsList.Num();
 		if (WeaponsList[SelectedWeapon]->GetMunitionCount() > 0 || SelectedWeapon == 0) break;
