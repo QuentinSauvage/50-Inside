@@ -111,7 +111,7 @@ void AFiftyMinInsidePawn::BeginPlay()
 
 	FlareLauncher = GetWorld()->SpawnActor<AWeapon>(FlareClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 	if (!FlareLauncher)
-		FlareLauncher = CreateDefaultSubobject<AWeapon>(TEXT("WeaponSpecial"));
+		FlareLauncher = CreateDefaultSubobject<AWeapon>(TEXT("FlareLauncher"));
 	FlareLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 	FlareLauncher->SetActorLocation(RocketLauncherOffset);
 

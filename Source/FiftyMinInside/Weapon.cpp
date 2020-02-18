@@ -39,34 +39,14 @@ bool AWeapon::CanFire() {
 
 void AWeapon::FireProjectile()
 {
-	/*if (BulletClass)
+	if (BulletClass)
 	{
-		if (bUseMunition)
-		{
-			if (MunitionCount == 0) {
-				return;
-			}
-			--MunitionCount;
-		}
-		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew!"));
-
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.bNoFail = true;
 		SpawnParams.Owner = this;
-
-		FVector Offset = GetActorLocation();
-		if (bAltern)
-		{
-			Offset.Y += (bFireLeft) ? -70.f : 70.f;
-			bFireLeft = !bFireLeft;
-		}
-		
-
-		GetWorld()->SpawnActor <ABullet>(BulletClass, BulletTransform, SpawnParams);
+		GetWorld()->SpawnActor <ABullet>(BulletClass, GetTransform(), SpawnParams);
 	}
-
-	*/
 }
 
 
