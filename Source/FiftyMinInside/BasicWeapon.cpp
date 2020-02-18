@@ -16,16 +16,17 @@ void ABasicWeapon::FireProjectile() {
 		SpawnParams.bNoFail = true;
 		SpawnParams.Owner = this;
 
-		FVector Offset = GetActorLocation();
-		Offset.Y += 70.f;
+		FVector Offset = FVector(0.f, 70.f, 0.f);
+		Offset = GetTransform().TransformPosition(Offset);
 		
 		FTransform BulletTransform;
 		BulletTransform.SetLocation(Offset);
 		BulletTransform.SetRotation(GetActorRotation().Quaternion());
 		BulletTransform.SetScale3D(FVector(1.f));
-
 		GetWorld()->SpawnActor <ABullet>(BulletClass, BulletTransform, SpawnParams);
-		Offset.Y -= 140.f;
+
+		Offset = FVector(0.f, -70.f, 0.f);
+		Offset = GetTransform().TransformPosition(Offset);
 		BulletTransform.SetLocation(Offset);
 		GetWorld()->SpawnActor <ABullet>(BulletClass, BulletTransform, SpawnParams);
 	}

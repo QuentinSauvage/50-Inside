@@ -33,8 +33,9 @@ void ARocketLauncher::FireProjectile() {
 		SpawnParams.bNoFail = true;
 		SpawnParams.Owner = this;
 
-		FVector Offset = GetActorLocation();
-		Offset.Y += (bFireLeft) ? -70.f : 70.f;
+		FVector Offset = FVector(0.f, 0.f, 0.f);
+		Offset.Y += (bFireLeft) ? -100.f : 100.f;
+		Offset = GetTransform().TransformPosition(Offset);
 		bFireLeft = !bFireLeft;
 
 		FTransform BulletTransform;
