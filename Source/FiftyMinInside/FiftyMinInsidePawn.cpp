@@ -229,6 +229,11 @@ void AFiftyMinInsidePawn::RollInput(float Val)
 
 void AFiftyMinInsidePawn::OnFire()
 {
+	if (SelectedWeapon != 0 && WeaponsList[SelectedWeapon]->GetMunitionCount() == 0)
+	{
+		WeaponsList[SelectedWeapon]->StopFire();
+		OnNextWeapon();
+	}
 	WeaponsList[SelectedWeapon]->Fire();
 }
 
@@ -289,4 +294,18 @@ float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 	RemainingHealth = FMath::Clamp(RemainingHealth, 0.0f, FullHealth);
 	PercentageHealth = RemainingHealth / FullHealth;
 	return RemainingHealth;
+}
+
+bool AFiftyMinInsidePawn::CollectWeapon(AWeapon* Weapon)
+{
+	int WeaponIndex = Weapon->GetWeaponIndex();
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%f - %f "), WeaponsList[WeaponIndex]->GetMunitionCount(), WeaponsList[WeaponIndex]->GetBaseMunitionCount()));
+	if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
+	{
+		return false;
+	}
+	WeaponsList[SelectedWeapon]->StopFire();
+	WeaponsList[WeaponIndex]->SetMunitionCount(WeaponsList[WeaponIndex]->GetBaseMunitionCount());
+	SelectedWeapon = WeaponIndex;
+	return true;
 }

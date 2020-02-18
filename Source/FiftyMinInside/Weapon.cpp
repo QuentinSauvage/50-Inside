@@ -12,7 +12,7 @@ AWeapon::AWeapon()
 	DelayBetweenShots = 0.4f;
 
 	bUseMunition = false;
-	MunitionCount = 5;
+	MunitionCount = 0;
 }
 
 
@@ -31,6 +31,21 @@ void AWeapon::Tick(float DeltaTime)
 float AWeapon::GetMunitionCount()
 {
 	return MunitionCount;
+}
+
+float AWeapon::GetBaseMunitionCount()
+{
+	return BaseMunitionCount;
+}
+
+void AWeapon::SetMunitionCount(float Amount)
+{
+	MunitionCount = Amount;
+}
+
+int AWeapon::GetWeaponIndex()
+{
+	return WeaponIndex;
 }
 
 bool AWeapon::CanFire() {

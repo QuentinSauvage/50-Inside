@@ -167,4 +167,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Health)
 		float UpdateHealth(float HealthChange);
+
+	bool CollectWeapon(class AWeapon* Weapon);
 };

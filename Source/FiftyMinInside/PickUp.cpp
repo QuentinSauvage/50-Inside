@@ -42,13 +42,5 @@ void APickUp::Tick(float DeltaTime)
 
 void APickUp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor && OtherActor != this) {
-		APawn* Pawn = Cast<APawn>(OtherActor);
-		if (Pawn) {
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("PickUp!"));
-			//if(Pawn->CanCollect())
-			//Destroy();
-		}
-	}
 }
 

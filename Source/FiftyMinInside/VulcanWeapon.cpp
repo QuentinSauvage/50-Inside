@@ -9,8 +9,11 @@
 void AVulcanWeapon::FireProjectile() {
 	if (BulletClass)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew Basic!"));
-
+		if (bUseMunition && MunitionCount == 0) {
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No ammo")));
+			return;
+		}
+		--MunitionCount;
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.bNoFail = true;

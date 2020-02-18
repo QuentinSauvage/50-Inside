@@ -18,6 +18,8 @@ public:
 	ARocketLauncher();
 
 protected:
+	virtual void BeginPlay();
+
 	virtual void FireProjectile() override;
 
 	/** If bAltern set to true, indicates which side is firing */
