@@ -7,13 +7,13 @@
 #include "EnemyPawnController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FIFTYMININSIDE_API AEnemyPawnController : public AAIController
 {
 	GENERATED_BODY()
-	
+
 protected:
 	UPROPERTY(Transient)
 		class UBlackboardComponent* BlackboardComp;

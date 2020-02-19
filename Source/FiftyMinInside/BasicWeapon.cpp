@@ -18,7 +18,7 @@ void ABasicWeapon::FireProjectile() {
 
 		FVector Offset = FVector(0.f, 70.f, 0.f);
 		Offset = GetTransform().TransformPosition(Offset);
-		
+
 		FTransform BulletTransform;
 		BulletTransform.SetLocation(Offset);
 		BulletTransform.SetRotation(GetActorRotation().Quaternion());

@@ -69,7 +69,7 @@ void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 		AddActorLocalOffset(LocalMove, true);
 	}
 
-	
+
 	// Calculate change in rotation this frame
 	FRotator DeltaRotation(0, 0, 0);
 	DeltaRotation.Pitch = CurrentPitchSpeed * DeltaSeconds;

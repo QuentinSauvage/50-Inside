@@ -7,13 +7,13 @@
 #include "VulcanWeapon.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FIFTYMININSIDE_API AVulcanWeapon : public AWeapon
 {
 	GENERATED_BODY()
-	
+
 protected:
 	virtual void FireProjectile() override;
 };

@@ -10,12 +10,12 @@
 // Sets default values
 ABullet::ABullet()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	BulletMesh = CreateDefaultSubobject<UStaticMeshComponent>("BulletMesh");
 	SetRootComponent(BulletMesh);
-	
+
 	Speed = 6000;
 
 	BulletMovement = CreateDefaultSubobject<UProjectileMovementComponent>("BulletMovement");
@@ -35,7 +35,7 @@ void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
 	BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(Material));
-	
+
 }
 
 // Called every frame

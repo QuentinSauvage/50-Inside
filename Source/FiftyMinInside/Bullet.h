@@ -10,8 +10,8 @@ UCLASS()
 class FIFTYMININSIDE_API ABullet : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ABullet();
 
@@ -20,31 +20,31 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	UStaticMeshComponent* BulletMesh;
+		UStaticMeshComponent* BulletMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	class UProjectileMovementComponent* BulletMovement;
+		class UProjectileMovementComponent* BulletMovement;
 
 	UPROPERTY(EditAnywhere, Category = "Object")
-	float Speed;
+		float Speed;
 
 	UPROPERTY(EditAnywhere, Category = Damage)
-	TSubclassOf<UDamageType> DamageType;
+		TSubclassOf<UDamageType> DamageType;
 
 	UPROPERTY(EditAnywhere, Category = Damage)
-	TSubclassOf<class ABulletExplosion> BulletExplosion;
+		TSubclassOf<class ABulletExplosion> BulletExplosion;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	class UMaterial* Material;
+		class UMaterial* Material;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	bool bSticky;
+		bool bSticky;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	virtual void OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+		virtual void OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
 };

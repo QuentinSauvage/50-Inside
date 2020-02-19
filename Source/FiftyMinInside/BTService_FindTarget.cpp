@@ -4,7 +4,7 @@
 #include "BTService_FindTarget.h"
 #include "EnemyPawnController.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyAllTypes.h"
-
+#include "Engine/World.h"
 
 UBTService_FindTarget::UBTService_FindTarget()
 {

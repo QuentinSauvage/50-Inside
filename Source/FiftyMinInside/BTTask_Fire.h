@@ -7,13 +7,13 @@
 #include "BTTask_Fire.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FIFTYMININSIDE_API UBTTask_Fire : public UBTTask_BlueprintBase
 {
 	GENERATED_BODY()
-	
+
 public:
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;

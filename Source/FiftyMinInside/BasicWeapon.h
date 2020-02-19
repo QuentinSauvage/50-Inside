@@ -7,13 +7,13 @@
 #include "BasicWeapon.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FIFTYMININSIDE_API ABasicWeapon : public AWeapon
 {
 	GENERATED_BODY()
-	
+
 protected:
 	virtual void FireProjectile() override;
 };

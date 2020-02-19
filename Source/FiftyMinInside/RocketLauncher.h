@@ -7,13 +7,13 @@
 #include "RocketLauncher.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FIFTYMININSIDE_API ARocketLauncher : public AWeapon
 {
 	GENERATED_BODY()
-	
+
 public:
 	ARocketLauncher();
 

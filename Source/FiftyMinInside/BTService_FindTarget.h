@@ -7,7 +7,7 @@
 #include "BTService_FindTarget.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FIFTYMININSIDE_API UBTService_FindTarget : public UBTService

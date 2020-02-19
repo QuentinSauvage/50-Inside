@@ -46,25 +46,25 @@ protected:
 	float LastFire;
 
 	UPROPERTY(EditAnywhere)
-	float DelayBetweenShots;
+		float DelayBetweenShots;
 
 	FTimerHandle TimeHandleFiring;
 
 	UPROPERTY(EditAnywhere, Category = "Bullet")
-	TSubclassOf<class ABullet> BulletClass;
+		TSubclassOf<class ABullet> BulletClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
-	bool bUseMunition;
+		bool bUseMunition;
 
 	/** Should the weapon change its spawn of bullet each time */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
-	bool bAltern;
+		bool bAltern;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
-	int BaseMunitionCount;
+		int BaseMunitionCount;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties)
-	int WeaponIndex;
+		int WeaponIndex;
 
 	int MunitionCount;
 

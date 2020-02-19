@@ -17,20 +17,15 @@ AEnemyPawnController::AEnemyPawnController() {
 void AEnemyPawnController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-	
+
 	AEnemyPawn* EPawn = Cast<AEnemyPawn>(InPawn);
 
 	//Init Blackboard and start behavoir tree
 	if (EPawn && EPawn->Behavior)
 	{
-
 		BlackboardComp->InitializeBlackboard(*EPawn->Behavior->BlackboardAsset);
-
 		DirectionKeyID = BlackboardComp->GetKeyID("Direction");
 		TargetKeyID = BlackboardComp->GetKeyID("Target");
-
-		//BlackboardComp->SetValue<UBlackboardKeyType_Object>(TargetKeyID, GetWorld()->GetFirstPlayerController()->GetPawn()); //
-
 		BehaviorComp->StartTree(*EPawn->Behavior);
 	}
 

@@ -7,13 +7,13 @@
 #include "BTTask_Rotate3D.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FIFTYMININSIDE_API UBTTask_Rotate3D : public UBTTask_RotateToFaceBBEntry
 {
 	GENERATED_BODY()
-	
+
 public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 

@@ -7,17 +7,17 @@
 #include "WeaponPickUp.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class FIFTYMININSIDE_API AWeaponPickUp : public APickUp
 {
 	GENERATED_BODY()
 
-	virtual void BeginPlay();
+		virtual void BeginPlay();
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
-	TSubclassOf<class AWeapon> WeaponClass;
+		TSubclassOf<class AWeapon> WeaponClass;
 
 	class AWeapon* Weapon;
 
