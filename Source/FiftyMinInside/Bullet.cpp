@@ -58,7 +58,7 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		}
 		APawn* Pawn = Cast<APawn>(OtherActor);
 		if (Pawn) {
-			float DamageDealed = UGameplayStatics::ApplyPointDamage(OtherActor, 10.0, GetActorLocation(), Hit, nullptr, this, DamageType);
+			float DamageDealed = UGameplayStatics::ApplyPointDamage(OtherActor, DamageValue, GetActorLocation(), Hit, nullptr, this, DamageType);
 		}
 	}
 	if (BulletExplosion)
@@ -69,7 +69,7 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		FTransform ExplosionTransform;
 		ExplosionTransform.SetLocation(GetActorLocation());
 		ABulletExplosion* Explosion = GetWorld()->SpawnActor <ABulletExplosion>(BulletExplosion, ExplosionTransform, SpawnParams);
-		Explosion->Init(DamageType);
+		Explosion->Init(DamageType, DamageValue);
 	}
 
 	Destroy();

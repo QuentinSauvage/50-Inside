@@ -22,9 +22,10 @@ ABulletExplosion::ABulletExplosion()
 	Mesh->SetupAttachment(RootComponent);
 }
 
-void ABulletExplosion::Init(TSubclassOf<UDamageType> BulletDamageType)
+void ABulletExplosion::Init(TSubclassOf<UDamageType> BulletDamageType, float DamageValue)
 {
 	DamageType = BulletDamageType;
+	DamageAmount = DamageValue;
 }
 
 // Called when the game starts or when spawned
@@ -47,7 +48,7 @@ void ABulletExplosion::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	if (OtherActor && OtherActor != this) {
 		APawn* Pawn = Cast<APawn>(OtherActor);
 		if (Pawn) {
-			float DamageDealed = UGameplayStatics::ApplyPointDamage(OtherActor, 10.0, GetActorLocation(), SweepResult, nullptr, this, DamageType);
+			float DamageDealed = UGameplayStatics::ApplyPointDamage(OtherActor, DamageAmount, GetActorLocation(), SweepResult, nullptr, this, DamageType);
 		}
 	}
 }

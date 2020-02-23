@@ -34,6 +34,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Damage)
 		TSubclassOf<class ABulletExplosion> BulletExplosion;
 
+	UPROPERTY(EditAnywhere, Category = Damage)
+		float DamageValue;
+
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class UMaterial* Material;
 

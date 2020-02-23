@@ -43,11 +43,6 @@ void AWeapon::SetMunitionCount(float Amount)
 	MunitionCount = Amount;
 }
 
-int AWeapon::GetWeaponIndex()
-{
-	return WeaponIndex;
-}
-
 bool AWeapon::CanFire() {
 	return !bTryFire;
 }

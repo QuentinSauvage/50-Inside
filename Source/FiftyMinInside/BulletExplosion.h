@@ -15,13 +15,15 @@ public:
 	// Sets default values for this actor's properties
 	ABulletExplosion();
 
-	void Init(TSubclassOf<UDamageType> BulletDamageType);
+	void Init(TSubclassOf<UDamageType> BulletDamageType, float DamageValue);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	TSubclassOf<UDamageType> DamageType;
+
+	float DamageAmount;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class USphereComponent* Collision;

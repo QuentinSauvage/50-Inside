@@ -296,9 +296,8 @@ float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 	return RemainingHealth;
 }
 
-bool AFiftyMinInsidePawn::CollectWeapon(AWeapon* Weapon)
+bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex)
 {
-	int WeaponIndex = Weapon->GetWeaponIndex();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%f - %f "), WeaponsList[WeaponIndex]->GetMunitionCount(), WeaponsList[WeaponIndex]->GetBaseMunitionCount()));
 	if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
 	{

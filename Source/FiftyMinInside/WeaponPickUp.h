@@ -14,12 +14,8 @@ class FIFTYMININSIDE_API AWeaponPickUp : public APickUp
 {
 	GENERATED_BODY()
 
-		virtual void BeginPlay();
-
 	UPROPERTY(EditAnywhere, Category = Armaments)
-		TSubclassOf<class AWeapon> WeaponClass;
-
-	class AWeapon* Weapon;
+		int WeaponIndex;
 
 public:
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;

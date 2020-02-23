@@ -38,8 +38,6 @@ public:
 
 	void SetMunitionCount(float Amount);
 
-	int GetWeaponIndex();
-
 protected:
 	bool bTryFire;
 
@@ -62,9 +60,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Munition)
 		int BaseMunitionCount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties)
-		int WeaponIndex;
 
 	int MunitionCount;
 
