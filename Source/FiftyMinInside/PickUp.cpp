@@ -30,7 +30,7 @@ APickUp::APickUp()
 void APickUp::BeginPlay()
 {
 	Super::BeginPlay();
-	Mesh->SetMaterial(0, Cast<UMaterialInterface>(Material));
+	Mesh->SetMaterial(0, Cast<UMaterialInterface>(MaterialInstance));
 
 }
 
