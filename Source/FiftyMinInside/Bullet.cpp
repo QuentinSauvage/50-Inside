@@ -5,6 +5,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
 #include "BulletExplosion.h"
 
 // Sets default values
@@ -51,6 +52,7 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		{
 			ABullet* Bullet = Cast<ABullet>(OtherActor);
 			if (Bullet && BulletMovement->Velocity != FVector::ZeroVector) {
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SpawnParticle, GetActorLocation());
 				Destroy();
 			}
 			BulletMovement->StopMovementImmediately();
@@ -72,6 +74,8 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		Explosion->Init(DamageType, DamageValue);
 	}
 
+	//SpawnParticle->SetLifeSpan
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SpawnParticle, GetActorLocation());
 	Destroy();
 }
 

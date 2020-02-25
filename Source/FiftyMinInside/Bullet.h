@@ -41,6 +41,9 @@ protected:
 		class UMaterialInterface* MaterialInstance;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
+		class UParticleSystem* SpawnParticle;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
 		bool bSticky;
 
 public:
