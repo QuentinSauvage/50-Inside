@@ -23,9 +23,6 @@ protected:
 		class UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-		class UMaterial* Material;
-
-	UPROPERTY(EditAnywhere, Category = "Components")
 		class UMaterialInterface* MaterialInstance;
 
 	UPROPERTY(EditAnywhere, Category = "Components")

@@ -20,7 +20,7 @@ APickUp::APickUp()
 	Collision->OnComponentBeginOverlap.AddDynamic(this, &APickUp::OnOverlapBegin);
 	SetRootComponent(Collision);
 
-	Material = CreateDefaultSubobject<UMaterial>("Material");
+	MaterialInstance = CreateDefaultSubobject<UMaterial>("Material");
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(RootComponent);

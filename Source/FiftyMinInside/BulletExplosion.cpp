@@ -20,6 +20,8 @@ ABulletExplosion::ABulletExplosion()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(RootComponent);
+
+	MaterialInstance = CreateDefaultSubobject<UMaterial>("Material");
 }
 
 void ABulletExplosion::Init(TSubclassOf<UDamageType> BulletDamageType, float DamageValue)
@@ -33,6 +35,7 @@ void ABulletExplosion::BeginPlay()
 {
 	Super::BeginPlay();
 	SetLifeSpan(TimeToLive);
+	Mesh->SetMaterial(0, Cast<UMaterialInterface>(MaterialInstance));
 }
 
 // Called every frame
