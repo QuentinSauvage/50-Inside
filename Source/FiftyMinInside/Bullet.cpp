@@ -5,6 +5,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
 #include "BulletExplosion.h"
 
 // Sets default values
@@ -24,7 +25,7 @@ ABullet::ABullet()
 	BulletMovement->bRotationFollowsVelocity = true;
 	BulletMovement->ProjectileGravityScale = 0.f;
 
-	Material = CreateDefaultSubobject<UMaterial>("Material");
+	MaterialInstance = CreateDefaultSubobject<UMaterial>("Material");
 
 	OnActorHit.AddDynamic(this, &ABullet::OnBulletHit);
 	InitialLifeSpan = 5.0f;
@@ -34,7 +35,7 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
-	BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(Material));
+	BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(MaterialInstance));
 
 }
 
@@ -51,6 +52,7 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		{
 			ABullet* Bullet = Cast<ABullet>(OtherActor);
 			if (Bullet && BulletMovement->Velocity != FVector::ZeroVector) {
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SpawnParticle, GetActorLocation());
 				Destroy();
 			}
 			BulletMovement->StopMovementImmediately();
@@ -72,6 +74,8 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		Explosion->Init(DamageType, DamageValue);
 	}
 
+	//SpawnParticle->SetLifeSpan
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SpawnParticle, GetActorLocation());
 	Destroy();
 }
 

@@ -37,6 +37,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 		float TimeToLive;
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class UMaterialInterface* MaterialInstance;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

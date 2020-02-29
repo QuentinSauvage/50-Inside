@@ -38,7 +38,10 @@ protected:
 		float DamageValue;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-		class UMaterial* Material;
+		class UMaterialInterface* MaterialInstance;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class UParticleSystem* SpawnParticle;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 		bool bSticky;
