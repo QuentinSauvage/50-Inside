@@ -10,7 +10,7 @@ void AWeaponPickUp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("COLLECT WEAPON")));
 	if (OtherActor && OtherActor != this) {
 		AFiftyMinInsidePawn* Pawn = Cast<AFiftyMinInsidePawn>(OtherActor);
-		if (Pawn && Pawn->CollectWeapon(WeaponIndex)) {
+		if (Pawn && Pawn->CollectWeapon(WeaponIndex, bWeapon)) {
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("COLLECT WEAPON")));
 			Destroy();
 		}

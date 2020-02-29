@@ -26,7 +26,7 @@ class AFiftyMinInsidePawn : public APawn
 		TArray<class AWeapon*> WeaponsList;
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
-		class AWeapon* RocketLauncher;
+		TArray<class AWeapon*> RocketsList;
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
 		class AWeapon* FlareLauncher;
@@ -34,14 +34,16 @@ class AFiftyMinInsidePawn : public APawn
 	/** Index of the selected weapon */
 	int SelectedWeapon;
 
+	/** Index of the selected rocket */
+	int SelectedRocket;
+
 public:
 
-	//modif
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
 		TArray<TSubclassOf<AWeapon>> WeaponsClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
-		TSubclassOf<AWeapon> RocketClass;
+		TArray<TSubclassOf<AWeapon>> RocketsClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
 		TSubclassOf<AWeapon> FlareClass;
@@ -95,6 +97,10 @@ protected:
 	void OnNextWeapon();
 
 	void OnPreviousWeapon();
+
+	void OnNextRocket();
+
+	void OnPreviousRocket();
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
@@ -168,5 +174,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 		float UpdateHealth(float HealthChange);
 
-	bool CollectWeapon(int WeaponIndex);
+	/* Collects a weapon from a pick up
+	* @WeaponIndex index of the collected weapon
+	* @bWeapon if the collected weapon is a classic weapon or a rocket launcher
+	*/
+	bool CollectWeapon(int WeaponIndex, bool bWeapon);
 };

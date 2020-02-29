@@ -58,6 +58,7 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	PercentageHealth = 1.0f;
 
 	SelectedWeapon = 0;
+	SelectedRocket = 0;
 
 }
 
@@ -100,14 +101,18 @@ void AFiftyMinInsidePawn::BeginPlay()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	RocketLauncher = GetWorld()->SpawnActor<AWeapon>(RocketClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-	if (!RocketLauncher)
-		RocketLauncher = CreateDefaultSubobject<AWeapon>(TEXT("WeaponSpecial"));
-	RocketLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-	FVector RocketLauncherOffset = RocketLauncher->GetActorLocation();
+	FVector RocketLauncherOffset = GetActorLocation();
 	RocketLauncherOffset.X += 200.f;
 	RocketLauncherOffset.Z -= 25.f;
-	RocketLauncher->SetActorLocation(RocketLauncherOffset);
+
+	for (int i = 0; i < WeaponsClass.Num(); ++i) {
+		RocketsList[i] = GetWorld()->SpawnActor<AWeapon>(RocketsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+		if (!RocketsList[i])
+			RocketsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
+		RocketsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+		FVector WeaponOffset = RocketLauncherOffset;
+		RocketsList[i]->SetActorLocation(WeaponOffset);
+	}
 
 	FlareLauncher = GetWorld()->SpawnActor<AWeapon>(FlareClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 	if (!FlareLauncher)
@@ -245,12 +250,12 @@ void AFiftyMinInsidePawn::StopFire()
 
 void AFiftyMinInsidePawn::OnFireSpecial()
 {
-	RocketLauncher->Fire();
+	RocketsList[SelectedRocket]->Fire();
 }
 
 void AFiftyMinInsidePawn::StopFireSpecial()
 {
-	RocketLauncher->StopFire();
+	RocketsList[SelectedRocket]->StopFire();
 }
 
 void AFiftyMinInsidePawn::OnFireFlare()
@@ -281,6 +286,24 @@ void AFiftyMinInsidePawn::OnPreviousWeapon()
 	}
 }
 
+void AFiftyMinInsidePawn::OnNextRocket()
+{
+	WeaponsList[SelectedRocket]->StopFire();
+	while (1) {
+		SelectedRocket = (SelectedRocket + 1) % RocketsList.Num();
+		if (RocketsList[SelectedRocket]->GetMunitionCount() > 0 || SelectedRocket == 0) break;
+	}
+}
+
+void AFiftyMinInsidePawn::OnPreviousRocket()
+{
+	RocketsList[SelectedRocket]->StopFire();
+	while (1) {
+		SelectedRocket = (SelectedRocket + RocketsList.Num() - 1) % RocketsList.Num();
+		if (RocketsList[SelectedRocket]->GetMunitionCount() > 0 || SelectedRocket == 0) break;
+	}
+}
+
 float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	UpdateHealth(-DamageAmount);
@@ -296,15 +319,26 @@ float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 	return RemainingHealth;
 }
 
-bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex)
+bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%f - %f "), WeaponsList[WeaponIndex]->GetMunitionCount(), WeaponsList[WeaponIndex]->GetBaseMunitionCount()));
-	if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
-	{
-		return false;
+	if (bWeapon) {
+		if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
+		{
+			return false;
+		}
+		WeaponsList[SelectedWeapon]->StopFire();
+		WeaponsList[WeaponIndex]->SetMunitionCount(WeaponsList[WeaponIndex]->GetBaseMunitionCount());
+		SelectedWeapon = WeaponIndex;
 	}
-	WeaponsList[SelectedWeapon]->StopFire();
-	WeaponsList[WeaponIndex]->SetMunitionCount(WeaponsList[WeaponIndex]->GetBaseMunitionCount());
-	SelectedWeapon = WeaponIndex;
+	else {
+		if (RocketsList[WeaponIndex]->GetMunitionCount() == RocketsList[WeaponIndex]->GetBaseMunitionCount())
+		{
+			return false;
+		}
+		RocketsList[SelectedRocket]->StopFire();
+		RocketsList[WeaponIndex]->SetMunitionCount(RocketsList[WeaponIndex]->GetBaseMunitionCount());
+		SelectedRocket = WeaponIndex;
+	}
 	return true;
 }
