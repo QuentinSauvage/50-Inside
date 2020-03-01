@@ -84,6 +84,10 @@ protected:
 	/** Bound to the z axis */
 	void RollInput(float Val);
 
+	void MoveGuidedRight(float Val);
+
+	void MoveGuidedUp(float Val);
+
 	void OnFire();
 
 	void StopFire();
@@ -117,6 +121,12 @@ private:
 	UPROPERTY(Category = Movement, EditAnywhere)
 		float DecelerationRate;
 
+	UPROPERTY(Category = Movement, EditAnywhere)
+		float GuidedAcceleration;
+
+	UPROPERTY(Category = Movement, EditAnywhere)
+		float GuidedForwardSpeed;
+
 	/** How quickly pawn can steer */
 	UPROPERTY(Category = Movement, EditAnywhere)
 		float TurnSpeed;
@@ -146,6 +156,12 @@ private:
 
 	/** Current roll speed */
 	float CurrentRollSpeed;
+
+	/** Current guided right speed */
+	float CurrentGuidedRightSpeed;
+
+	/** Current guided up speed */
+	float CurrentGuidedUpSpeed;
 
 	/** Maximum health*/
 	UPROPERTY(EditAnywhere, Category = Health)

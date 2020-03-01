@@ -70,8 +70,13 @@ void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 	if (!LocalMove.IsNearlyZero(0.5f)) {
 		// Move plan forwards (with sweep so we stop when we collide with things)
 		AddActorLocalOffset(LocalMove, true);
-		if (GuidedRocket) {
-			GuidedRocket->AddActorLocalOffset(LocalMove, true);
+	}
+
+	if (GuidedRocket) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Move guided: %f %f"), CurrentGuidedUpSpeed, CurrentGuidedRightSpeed));
+		const FVector LocalGuidedMove = FVector(GuidedForwardSpeed * DeltaSeconds, CurrentGuidedRightSpeed * DeltaSeconds, CurrentGuidedUpSpeed * DeltaSeconds);
+		if (!LocalGuidedMove.IsNearlyZero(0.5f)) {
+			GuidedRocket->AddActorLocalOffset(LocalGuidedMove, true);
 		}
 	}
 
@@ -148,6 +153,8 @@ void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAxis("Turn", this, &AFiftyMinInsidePawn::TurnInput);
 	PlayerInputComponent->BindAxis("Roll", this, &AFiftyMinInsidePawn::RollInput);
 
+	PlayerInputComponent->BindAxis("MoveGuidedRight", this, &AFiftyMinInsidePawn::MoveGuidedRight);
+	PlayerInputComponent->BindAxis("MoveGuidedUp", this, &AFiftyMinInsidePawn::MoveGuidedUp);
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFiftyMinInsidePawn::OnFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFiftyMinInsidePawn::StopFire);
@@ -203,9 +210,9 @@ void AFiftyMinInsidePawn::MoveUpInput(float Val)
 	else
 		CurrentAcc = CurrentUpSpeed > 0.f ? (-DecelerationRate * Acceleration) : (DecelerationRate * Acceleration);
 	// Calculate new speed
-	float NewRightSpeed = CurrentUpSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
+	float NewUpSpeed = CurrentUpSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
 	// Clamp between MinSpeed and MaxSpeed
-	CurrentUpSpeed = FMath::Clamp(NewRightSpeed, MinSpeed, MaxSpeed);
+	CurrentUpSpeed = FMath::Clamp(NewUpSpeed, MinSpeed, MaxSpeed);
 }
 
 void AFiftyMinInsidePawn::LookUpInput(float Val)
@@ -235,6 +242,30 @@ void AFiftyMinInsidePawn::RollInput(float Val)
 
 	// Smoothly interpolate to target yaw speed
 	CurrentRollSpeed = FMath::FInterpTo(CurrentRollSpeed, TargetRollSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
+}
+
+void AFiftyMinInsidePawn::MoveGuidedUp(float Val)
+{
+	// Is there any input?
+	bool bHasInput = !FMath::IsNearlyEqual(Val, 0.f);
+	// If input is not held down, reduce speed
+	float CurrentAcc = bHasInput ? Val * GuidedAcceleration : 0;
+	// Calculate new speed
+	float NewUpSpeed = CurrentGuidedUpSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
+	// Clamp between MinSpeed and MaxSpeed
+	CurrentGuidedUpSpeed = FMath::Clamp(NewUpSpeed, MinSpeed, MaxSpeed);
+}
+
+void AFiftyMinInsidePawn::MoveGuidedRight(float Val)
+{
+	// Is there any input?
+	bool bHasInput = !FMath::IsNearlyEqual(Val, 0.f);
+	// If input is not held down, reduce speed
+	float CurrentAcc = bHasInput ? Val * GuidedAcceleration : 0;
+	// Calculate new speed
+	float NewRightSpeed = CurrentGuidedRightSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
+	// Clamp between MinSpeed and MaxSpeed
+	CurrentGuidedRightSpeed = FMath::Clamp(NewRightSpeed, MinSpeed, MaxSpeed);
 }
 
 void AFiftyMinInsidePawn::OnFire()
