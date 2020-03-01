@@ -9,6 +9,7 @@
 #include "Engine/World.h"
 #include "Engine/StaticMesh.h"
 #include "Weapon.h"
+#include "GuidedRocket.h"
 
 
 AFiftyMinInsidePawn::AFiftyMinInsidePawn()
@@ -60,6 +61,7 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	SelectedWeapon = 0;
 	SelectedRocket = 0;
 
+	GuidedRocket = nullptr;
 }
 
 void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
@@ -68,6 +70,9 @@ void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 	if (!LocalMove.IsNearlyZero(0.5f)) {
 		// Move plan forwards (with sweep so we stop when we collide with things)
 		AddActorLocalOffset(LocalMove, true);
+		if (GuidedRocket) {
+			GuidedRocket->AddActorLocalOffset(LocalMove, true);
+		}
 	}
 
 
@@ -317,6 +322,11 @@ float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 	RemainingHealth = FMath::Clamp(RemainingHealth, 0.0f, FullHealth);
 	PercentageHealth = RemainingHealth / FullHealth;
 	return RemainingHealth;
+}
+
+void AFiftyMinInsidePawn::SetGuidedRocket(AGuidedRocket* Rocket)
+{
+	GuidedRocket = Rocket;
 }
 
 bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)

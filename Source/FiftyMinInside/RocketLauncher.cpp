@@ -17,6 +17,11 @@ void ARocketLauncher::BeginPlay()
 	MunitionCount = BaseMunitionCount;
 }
 
+void ARocketLauncher::Fire()
+{
+	Super::Fire();
+}
+
 void ARocketLauncher::FireProjectile() {
 	if (BulletClass)
 	{

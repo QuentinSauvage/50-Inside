@@ -37,6 +37,8 @@ class AFiftyMinInsidePawn : public APawn
 	/** Index of the selected rocket */
 	int SelectedRocket;
 
+	class AGuidedRocket* GuidedRocket;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
@@ -173,6 +175,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Health)
 		float UpdateHealth(float HealthChange);
+
+	void SetGuidedRocket(class AGuidedRocket* Rocket);
 
 	/* Collects a weapon from a pick up
 	* @WeaponIndex index of the collected weapon

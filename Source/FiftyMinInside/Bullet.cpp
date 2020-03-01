@@ -17,11 +17,7 @@ ABullet::ABullet()
 	BulletMesh = CreateDefaultSubobject<UStaticMeshComponent>("BulletMesh");
 	SetRootComponent(BulletMesh);
 
-	Speed = 6000;
-
 	BulletMovement = CreateDefaultSubobject<UProjectileMovementComponent>("BulletMovement");
-	BulletMovement->InitialSpeed = Speed;
-	BulletMovement->MaxSpeed = Speed;
 	BulletMovement->bRotationFollowsVelocity = true;
 	BulletMovement->ProjectileGravityScale = 0.f;
 
@@ -29,6 +25,7 @@ ABullet::ABullet()
 
 	OnActorHit.AddDynamic(this, &ABullet::OnBulletHit);
 	InitialLifeSpan = 5.0f;
+
 }
 
 // Called when the game starts or when spawned
@@ -74,7 +71,6 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 		Explosion->Init(DamageType, DamageValue);
 	}
 
-	//SpawnParticle->SetLifeSpan
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SpawnParticle, GetActorLocation());
 	Destroy();
 }
