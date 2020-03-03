@@ -17,6 +17,9 @@ class FIFTYMININSIDE_API AWeaponPickUp : public APickUp
 	UPROPERTY(EditAnywhere, Category = Armaments)
 		int WeaponIndex;
 
+	UPROPERTY(EditAnywhere, Category = Armaments)
+		bool bWeapon;
+
 public:
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 };

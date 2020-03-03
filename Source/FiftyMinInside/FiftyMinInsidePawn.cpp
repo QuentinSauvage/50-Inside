@@ -9,6 +9,7 @@
 #include "Engine/World.h"
 #include "Engine/StaticMesh.h"
 #include "Weapon.h"
+#include "GuidedRocket.h"
 
 
 AFiftyMinInsidePawn::AFiftyMinInsidePawn()
@@ -58,7 +59,9 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	PercentageHealth = 1.0f;
 
 	SelectedWeapon = 0;
+	SelectedRocket = 0;
 
+	GuidedRocket = nullptr;
 }
 
 void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
@@ -67,6 +70,13 @@ void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 	if (!LocalMove.IsNearlyZero(0.5f)) {
 		// Move plan forwards (with sweep so we stop when we collide with things)
 		AddActorLocalOffset(LocalMove, true);
+	}
+
+	if (GuidedRocket) {
+		const FVector LocalGuidedMove = FVector(GuidedForwardSpeed * DeltaSeconds, CurrentGuidedRightSpeed * DeltaSeconds, CurrentGuidedUpSpeed * DeltaSeconds);
+		if (!LocalGuidedMove.IsNearlyZero(0.5f)) {
+			GuidedRocket->AddActorLocalOffset(LocalGuidedMove, true);
+		}
 	}
 
 
@@ -100,14 +110,18 @@ void AFiftyMinInsidePawn::BeginPlay()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	RocketLauncher = GetWorld()->SpawnActor<AWeapon>(RocketClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-	if (!RocketLauncher)
-		RocketLauncher = CreateDefaultSubobject<AWeapon>(TEXT("WeaponSpecial"));
-	RocketLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-	FVector RocketLauncherOffset = RocketLauncher->GetActorLocation();
+	FVector RocketLauncherOffset = GetActorLocation();
 	RocketLauncherOffset.X += 200.f;
 	RocketLauncherOffset.Z -= 25.f;
-	RocketLauncher->SetActorLocation(RocketLauncherOffset);
+
+	for (int i = 0; i < WeaponsClass.Num(); ++i) {
+		RocketsList[i] = GetWorld()->SpawnActor<AWeapon>(RocketsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+		if (!RocketsList[i])
+			RocketsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
+		RocketsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+		FVector WeaponOffset = RocketLauncherOffset;
+		RocketsList[i]->SetActorLocation(WeaponOffset);
+	}
 
 	FlareLauncher = GetWorld()->SpawnActor<AWeapon>(FlareClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 	if (!FlareLauncher)
@@ -138,6 +152,8 @@ void AFiftyMinInsidePawn::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAxis("Turn", this, &AFiftyMinInsidePawn::TurnInput);
 	PlayerInputComponent->BindAxis("Roll", this, &AFiftyMinInsidePawn::RollInput);
 
+	PlayerInputComponent->BindAxis("MoveGuidedRight", this, &AFiftyMinInsidePawn::MoveGuidedRight);
+	PlayerInputComponent->BindAxis("MoveGuidedUp", this, &AFiftyMinInsidePawn::MoveGuidedUp);
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFiftyMinInsidePawn::OnFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFiftyMinInsidePawn::StopFire);
@@ -193,9 +209,9 @@ void AFiftyMinInsidePawn::MoveUpInput(float Val)
 	else
 		CurrentAcc = CurrentUpSpeed > 0.f ? (-DecelerationRate * Acceleration) : (DecelerationRate * Acceleration);
 	// Calculate new speed
-	float NewRightSpeed = CurrentUpSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
+	float NewUpSpeed = CurrentUpSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
 	// Clamp between MinSpeed and MaxSpeed
-	CurrentUpSpeed = FMath::Clamp(NewRightSpeed, MinSpeed, MaxSpeed);
+	CurrentUpSpeed = FMath::Clamp(NewUpSpeed, MinSpeed, MaxSpeed);
 }
 
 void AFiftyMinInsidePawn::LookUpInput(float Val)
@@ -227,6 +243,30 @@ void AFiftyMinInsidePawn::RollInput(float Val)
 	CurrentRollSpeed = FMath::FInterpTo(CurrentRollSpeed, TargetRollSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
 }
 
+void AFiftyMinInsidePawn::MoveGuidedUp(float Val)
+{
+	// Is there any input?
+	bool bHasInput = !FMath::IsNearlyEqual(Val, 0.f);
+	// If input is not held down, reduce speed
+	float CurrentAcc = bHasInput ? Val * GuidedAcceleration : 0;
+	// Calculate new speed
+	float NewUpSpeed = CurrentGuidedUpSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
+	// Clamp between MinSpeed and MaxSpeed
+	CurrentGuidedUpSpeed = FMath::Clamp(NewUpSpeed, MinSpeed, MaxSpeed);
+}
+
+void AFiftyMinInsidePawn::MoveGuidedRight(float Val)
+{
+	// Is there any input?
+	bool bHasInput = !FMath::IsNearlyEqual(Val, 0.f);
+	// If input is not held down, reduce speed
+	float CurrentAcc = bHasInput ? Val * GuidedAcceleration : 0;
+	// Calculate new speed
+	float NewRightSpeed = CurrentGuidedRightSpeed + (GetWorld()->GetDeltaSeconds() * CurrentAcc);
+	// Clamp between MinSpeed and MaxSpeed
+	CurrentGuidedRightSpeed = FMath::Clamp(NewRightSpeed, MinSpeed, MaxSpeed);
+}
+
 void AFiftyMinInsidePawn::OnFire()
 {
 	if (SelectedWeapon != 0 && WeaponsList[SelectedWeapon]->GetMunitionCount() == 0)
@@ -245,12 +285,12 @@ void AFiftyMinInsidePawn::StopFire()
 
 void AFiftyMinInsidePawn::OnFireSpecial()
 {
-	RocketLauncher->Fire();
+	RocketsList[SelectedRocket]->Fire();
 }
 
 void AFiftyMinInsidePawn::StopFireSpecial()
 {
-	RocketLauncher->StopFire();
+	RocketsList[SelectedRocket]->StopFire();
 }
 
 void AFiftyMinInsidePawn::OnFireFlare()
@@ -281,6 +321,24 @@ void AFiftyMinInsidePawn::OnPreviousWeapon()
 	}
 }
 
+void AFiftyMinInsidePawn::OnNextRocket()
+{
+	WeaponsList[SelectedRocket]->StopFire();
+	while (1) {
+		SelectedRocket = (SelectedRocket + 1) % RocketsList.Num();
+		if (RocketsList[SelectedRocket]->GetMunitionCount() > 0 || SelectedRocket == 0) break;
+	}
+}
+
+void AFiftyMinInsidePawn::OnPreviousRocket()
+{
+	RocketsList[SelectedRocket]->StopFire();
+	while (1) {
+		SelectedRocket = (SelectedRocket + RocketsList.Num() - 1) % RocketsList.Num();
+		if (RocketsList[SelectedRocket]->GetMunitionCount() > 0 || SelectedRocket == 0) break;
+	}
+}
+
 float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	UpdateHealth(-DamageAmount);
@@ -296,15 +354,31 @@ float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 	return RemainingHealth;
 }
 
-bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex)
+void AFiftyMinInsidePawn::SetGuidedRocket(AGuidedRocket* Rocket)
+{
+	GuidedRocket = Rocket;
+}
+
+bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%f - %f "), WeaponsList[WeaponIndex]->GetMunitionCount(), WeaponsList[WeaponIndex]->GetBaseMunitionCount()));
-	if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
-	{
-		return false;
+	if (bWeapon) {
+		if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
+		{
+			return false;
+		}
+		WeaponsList[SelectedWeapon]->StopFire();
+		WeaponsList[WeaponIndex]->SetMunitionCount(WeaponsList[WeaponIndex]->GetBaseMunitionCount());
+		SelectedWeapon = WeaponIndex;
 	}
-	WeaponsList[SelectedWeapon]->StopFire();
-	WeaponsList[WeaponIndex]->SetMunitionCount(WeaponsList[WeaponIndex]->GetBaseMunitionCount());
-	SelectedWeapon = WeaponIndex;
+	else {
+		if (RocketsList[WeaponIndex]->GetMunitionCount() == RocketsList[WeaponIndex]->GetBaseMunitionCount())
+		{
+			return false;
+		}
+		RocketsList[SelectedRocket]->StopFire();
+		RocketsList[WeaponIndex]->SetMunitionCount(RocketsList[WeaponIndex]->GetBaseMunitionCount());
+		SelectedRocket = WeaponIndex;
+	}
 	return true;
 }

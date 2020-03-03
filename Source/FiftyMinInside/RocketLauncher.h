@@ -14,14 +14,16 @@ class FIFTYMININSIDE_API ARocketLauncher : public AWeapon
 {
 	GENERATED_BODY()
 
-public:
-	ARocketLauncher();
+	public:
+		ARocketLauncher();
 
-protected:
-	virtual void BeginPlay();
+	protected:
+		virtual void BeginPlay();
 
-	virtual void FireProjectile() override;
+		virtual void Fire() override;
 
-	/** If bAltern set to true, indicates which side is firing */
-	bool bFireLeft;
+		virtual void FireProjectile() override;
+
+		/** If bAltern set to true, indicates which side is firing */
+		bool bFireLeft;
 };

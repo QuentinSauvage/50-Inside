@@ -16,6 +16,7 @@ public:
 	ABullet();
 
 protected:
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -24,9 +25,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class UProjectileMovementComponent* BulletMovement;
-
-	UPROPERTY(EditAnywhere, Category = "Object")
-		float Speed;
 
 	UPROPERTY(EditAnywhere, Category = Damage)
 		TSubclassOf<UDamageType> DamageType;
@@ -52,5 +50,4 @@ public:
 
 	UFUNCTION()
 		virtual void OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
-
 };

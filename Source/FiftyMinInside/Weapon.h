@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	AWeapon();
 
-	void Fire();
+	virtual void Fire();
 
 	void StopFire();
 
