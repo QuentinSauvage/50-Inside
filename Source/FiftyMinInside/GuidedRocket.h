@@ -42,6 +42,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class UParticleSystem* SpawnParticle;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Rendering")
+		void ClearRenderTexture();
+
 	virtual void BeginPlay() override;
 
 };

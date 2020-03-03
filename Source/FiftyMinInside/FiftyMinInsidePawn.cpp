@@ -73,7 +73,6 @@ void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 	}
 
 	if (GuidedRocket) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Move guided: %f %f"), CurrentGuidedUpSpeed, CurrentGuidedRightSpeed));
 		const FVector LocalGuidedMove = FVector(GuidedForwardSpeed * DeltaSeconds, CurrentGuidedRightSpeed * DeltaSeconds, CurrentGuidedUpSpeed * DeltaSeconds);
 		if (!LocalGuidedMove.IsNearlyZero(0.5f)) {
 			GuidedRocket->AddActorLocalOffset(LocalGuidedMove, true);

@@ -61,5 +61,6 @@ void AGuidedRocket::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector N
 	{
 		launcher->ResetFiring();
 	}
+	this->ClearRenderTexture();
 	Destroy();
 }
