@@ -285,6 +285,10 @@ void AFiftyMinInsidePawn::StopFire()
 
 void AFiftyMinInsidePawn::OnFireSpecial()
 {
+	if (GuidedRocket) {
+		CurrentGuidedRightSpeed = 0;
+		CurrentGuidedUpSpeed = 0;
+	}
 	RocketsList[SelectedRocket]->Fire();
 }
 
