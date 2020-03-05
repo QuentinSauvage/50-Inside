@@ -108,8 +108,6 @@ protected:
 
 	void OnPreviousRocket();
 
-	void OnPause();
-
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 
@@ -193,6 +191,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Health)
 		float UpdateHealth(float HealthChange);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Health)
+		void DisplayGameOver();
 
 	void SetGuidedRocket(class AGuidedRocket* Rocket);
 

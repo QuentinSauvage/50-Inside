@@ -355,6 +355,10 @@ float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 	RemainingHealth += HealthChange;
 	RemainingHealth = FMath::Clamp(RemainingHealth, 0.0f, FullHealth);
 	PercentageHealth = RemainingHealth / FullHealth;
+	if (RemainingHealth == 0)
+	{
+		this->DisplayGameOver();
+	}
 	return RemainingHealth;
 }
 
