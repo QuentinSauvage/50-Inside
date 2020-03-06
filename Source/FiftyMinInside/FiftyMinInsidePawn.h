@@ -192,6 +192,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 		float UpdateHealth(float HealthChange);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = Health)
+		void DisplayGameOver();
+
 	void SetGuidedRocket(class AGuidedRocket* Rocket);
 
 	/* Collects a weapon from a pick up
