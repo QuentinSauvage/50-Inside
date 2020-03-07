@@ -45,6 +45,12 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Rendering")
 		void ClearRenderTexture();
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class USoundBase* SpawnSound;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class USoundBase* DestroyedSound;
+
 	virtual void BeginPlay() override;
 
 };

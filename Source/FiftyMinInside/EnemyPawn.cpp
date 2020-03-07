@@ -10,6 +10,9 @@
 #include "Engine/World.h"
 #include "Engine/StaticMesh.h"
 #include "Weapon.h"
+#include "Sound/SoundBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
 
 // Sets default values
 AEnemyPawn::AEnemyPawn()
@@ -96,3 +99,7 @@ void AEnemyPawn::StopFire()
 	MainWeapon->StopFire();
 }
 
+USoundBase* AEnemyPawn::GetHitSound()
+{
+	return HitSound;
+}
