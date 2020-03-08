@@ -47,8 +47,6 @@ AEnemyPawn::AEnemyPawn()
 	NeighborTrigger->InitSphereRadius(1000.0f);
 	NeighborTrigger->SetupAttachment(PlaneMesh);
 	NeighborTrigger->SetCollisionProfileName("Trigger");
-	NeighborTrigger->OnComponentBeginOverlap.AddDynamic(this, &AEnemyPawn::AddNeighbor);
-	NeighborTrigger->OnComponentEndOverlap.AddDynamic(this, &AEnemyPawn::RemoveNeighbor);
 }
 
 void AEnemyPawn::Tick(float DeltaTime)
