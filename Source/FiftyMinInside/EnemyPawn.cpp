@@ -114,15 +114,9 @@ void AEnemyPawn::AddNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 		if (Ally)
 		{
 			Neighbors.Add(Ally);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Adding ")));
-
 		}
-		else {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Adding not ally")));
 
-		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Adding ")));
 
 }
 
@@ -136,7 +130,5 @@ void AEnemyPawn::RemoveNeighbor(UPrimitiveComponent* OverlappedComp, AActor* Oth
 			Neighbors.Remove(Ally);
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Removing ")));
-
 }
 

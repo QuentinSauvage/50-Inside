@@ -26,6 +26,7 @@ void AEnemyPawnController::OnPossess(APawn* InPawn)
 		BlackboardComp->InitializeBlackboard(*EPawn->Behavior->BlackboardAsset);
 		DirectionKeyID = BlackboardComp->GetKeyID("Direction");
 		TargetKeyID = BlackboardComp->GetKeyID("Target");
+		FlokingLocationKeyID = BlackboardComp->GetKeyID("FlokingLocation");
 		BehaviorComp->StartTree(*EPawn->Behavior);
 	}
 

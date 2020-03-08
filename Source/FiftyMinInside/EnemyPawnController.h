@@ -28,5 +28,6 @@ public:
 
 	uint8 DirectionKeyID;
 	uint8 TargetKeyID;
+	uint8 FlokingLocationKeyID;
 
 };

@@ -21,8 +21,7 @@ ABullet::ABullet()
 	BulletMovement->bRotationFollowsVelocity = true;
 	BulletMovement->ProjectileGravityScale = 0.f;
 
-	MaterialInstance = CreateDefaultSubobject<UMaterial>("Material");
-
+	MaterialInstance = CreateDefaultSubobject<UMaterialInterface>("Material");
 	OnActorHit.AddDynamic(this, &ABullet::OnBulletHit);
 	InitialLifeSpan = 5.0f;
 
