@@ -10,10 +10,14 @@
 #include "Engine/World.h"
 #include "Engine/StaticMesh.h"
 #include "Weapon.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/SphereComponent.h"
+
 
 // Sets default values
 AEnemyPawn::AEnemyPawn()
 {
+	PrimaryActorTick.bCanEverTick = true;
 	// Structure to hold one-time initialization
 	struct FConstructorStatics
 	{
@@ -38,6 +42,13 @@ AEnemyPawn::AEnemyPawn()
 	bUseControllerRotationYaw = false;
 
 	FullSpeed = 500.0f;
+
+	NeighborTrigger = CreateDefaultSubobject<USphereComponent>(TEXT("NeighborTrigger"));
+	NeighborTrigger->InitSphereRadius(1000.0f);
+	NeighborTrigger->SetupAttachment(PlaneMesh);
+	NeighborTrigger->SetCollisionProfileName("Trigger");
+	NeighborTrigger->OnComponentBeginOverlap.AddDynamic(this, &AEnemyPawn::AddNeighbor);
+	NeighborTrigger->OnComponentEndOverlap.AddDynamic(this, &AEnemyPawn::RemoveNeighbor);
 }
 
 void AEnemyPawn::Tick(float DeltaTime)
@@ -64,6 +75,8 @@ void AEnemyPawn::BeginPlay()
 	MainWeaponOffset.X += 200.f;
 	MainWeaponOffset.Z -= 25.f;
 	MainWeapon->SetActorLocation(MainWeaponOffset);
+
+
 }
 
 
@@ -94,5 +107,38 @@ void AEnemyPawn::OnFire()
 void AEnemyPawn::StopFire()
 {
 	MainWeapon->StopFire();
+}
+
+void AEnemyPawn::AddNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor && OtherActor != this) {
+		AEnemyPawn* Ally = Cast<AEnemyPawn>(OtherActor);
+		if (Ally)
+		{
+			Neighbors.Add(Ally);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Adding ")));
+
+		}
+		else {
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Adding not ally")));
+
+		}
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Adding ")));
+
+}
+
+void AEnemyPawn::RemoveNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor && OtherActor != this) {
+
+		AEnemyPawn* Ally = Cast<AEnemyPawn>(OtherActor);
+		if (Ally)
+		{
+			Neighbors.Remove(Ally);
+		}
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Removing ")));
+
 }
 

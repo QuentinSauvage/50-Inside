@@ -25,6 +25,9 @@ class FIFTYMININSIDE_API AEnemyPawn : public APawn
 	UPROPERTY(EditAnywhere, Category = Health)
 		float RemainingHealth;
 
+	UPROPERTY(EditAnywhere, Category = Detection)
+		class USphereComponent* NeighborTrigger;
+
 public:
 	/** Weapon Class*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
@@ -41,6 +44,8 @@ public:
 
 	FVector CurrentDirection;
 
+	TArray<AEnemyPawn*> Neighbors;
+
 public:
 	// Sets default values for this pawn's properties
 	AEnemyPawn();
@@ -50,6 +55,10 @@ public:
 	void OnFire();
 
 	void StopFire();
+
+	void AddNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	void RemoveNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 protected:
 	// Called when the game starts or when spawned
