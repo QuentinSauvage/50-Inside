@@ -11,26 +11,37 @@
 #include "AIController.h"
 #include "EnemyPawnController.h"
 #include "Kismet/KismetMathLibrary.h"
-
+#include "FiftyMinInsidePawn.h"
+#include "EnemyPawn.h"
+#include "Weapon.h"
 
 UBTTask_Rotate3D::UBTTask_Rotate3D(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 
 EBTNodeResult::Type UBTTask_Rotate3D::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+
+	const float AproximateBulletSpeed = 4000;
+
 	AEnemyPawnController* Controller = Cast<AEnemyPawnController>(OwnerComp.GetAIOwner());
 	if (Controller)
 	{
 		const UBlackboardComponent* MyBlackboard = OwnerComp.GetBlackboardComponent();
 		if (BlackboardKey.SelectedKeyType == UBlackboardKeyType_Object::StaticClass())
 		{
-			APawn* Pawn = Controller->GetPawn();
+			AEnemyPawn* Pawn = Cast< AEnemyPawn>(Controller->GetPawn());
 
 			UObject* KeyValue = MyBlackboard->GetValue<UBlackboardKeyType_Object>(BlackboardKey.GetSelectedKeyID());
 			AActor* ActorValue = Cast<AActor>(KeyValue);
 
-			if (ActorValue != NULL)
+			if (ActorValue && Pawn)
 			{
-				Pawn->SetActorRotation(UKismetMathLibrary::FindLookAtRotation(Pawn->GetActorLocation(), ActorValue->GetActorLocation()));
+				FVector TargetLocation = ActorValue->GetActorLocation();
+				AFiftyMinInsidePawn* Player = Cast<AFiftyMinInsidePawn>(ActorValue);
+				if (Player && !Player->LocalMove.IsNearlyZero(0.5f))
+				{
+					TargetLocation += Player->LocalMove * ((Pawn->GetActorLocation() - Player->GetActorLocation()) / AproximateBulletSpeed).GetAbs();
+				}
+				Pawn->SetActorRotation(UKismetMathLibrary::FindLookAtRotation(Pawn->GetActorLocation(), TargetLocation));
 			}
 		}
 

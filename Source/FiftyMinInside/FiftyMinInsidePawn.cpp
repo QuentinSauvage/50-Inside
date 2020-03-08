@@ -61,12 +61,15 @@ AFiftyMinInsidePawn::AFiftyMinInsidePawn()
 	SelectedWeapon = 0;
 	SelectedRocket = 0;
 
+	LocalMove = FVector::ZeroVector;
+
 	GuidedRocket = nullptr;
 }
 
 void AFiftyMinInsidePawn::Tick(float DeltaSeconds)
 {
-	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaSeconds, CurrentRightSpeed * DeltaSeconds, CurrentUpSpeed * DeltaSeconds);
+	LocalMove = FVector(CurrentForwardSpeed * DeltaSeconds, CurrentRightSpeed * DeltaSeconds, CurrentUpSpeed * DeltaSeconds);
+
 	if (!LocalMove.IsNearlyZero(0.5f)) {
 		// Move plan forwards (with sweep so we stop when we collide with things)
 		AddActorLocalOffset(LocalMove, true);

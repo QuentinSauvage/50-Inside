@@ -15,8 +15,7 @@ class FIFTYMININSIDE_API AEnemyPawn : public APawn
 		UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* PlaneMesh;
 
-	UPROPERTY(EditAnywhere, Category = Armaments)
-		class AWeapon* MainWeapon;
+
 
 	/** Maximum health*/
 	UPROPERTY(EditAnywhere, Category = Health)
@@ -29,7 +28,10 @@ class FIFTYMININSIDE_API AEnemyPawn : public APawn
 public:
 	/** Weapon Class*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
-		TSubclassOf<AWeapon> WeaponClass;
+		TSubclassOf<class AWeapon> WeaponClass;
+
+	UPROPERTY(EditAnywhere, Category = Armaments)
+		 AWeapon* MainWeapon;
 
 	UPROPERTY(EditAnywhere, Category = Behavior)
 		class UBehaviorTree* Behavior;

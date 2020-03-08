@@ -50,6 +50,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
 		TSubclassOf<AWeapon> FlareClass;
 
+	FVector LocalMove;
+
 public:
 	AFiftyMinInsidePawn();
 
