@@ -28,6 +28,9 @@ class FIFTYMININSIDE_API AEnemyPawn : public APawn
 	UPROPERTY(EditAnywhere, Category = Detection)
 		class USphereComponent* NeighborTrigger;
 
+	UPROPERTY(EditAnywhere, Category = Health)
+		class USoundBase* HitSound;
+
 public:
 	/** Weapon Class*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
@@ -62,6 +65,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Overlap)
 	void RemoveNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	USoundBase* GetHitSound();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -70,5 +75,4 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void UpdateHealth(float HealthChange);
-
 };

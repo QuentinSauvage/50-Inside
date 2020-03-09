@@ -44,6 +44,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 		bool bSticky;
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class USoundBase *SpawnSound;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		class USoundBase *TextureSound;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

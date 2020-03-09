@@ -7,6 +7,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "BulletExplosion.h"
+#include "Sound/SoundBase.h"
+#include "EnemyPawn.h"
 
 // Sets default values
 ABullet::ABullet()
@@ -32,7 +34,7 @@ void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
 	BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(MaterialInstance));
-
+	UGameplayStatics::PlaySoundAtLocation(this->GetWorld(), SpawnSound, this->GetActorLocation());
 }
 
 // Called every frame
@@ -55,8 +57,18 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 			return;
 		}
 		APawn* Pawn = Cast<APawn>(OtherActor);
-		if (Pawn) {
+		if (Pawn)
+		{
 			float DamageDealed = UGameplayStatics::ApplyPointDamage(OtherActor, DamageValue, GetActorLocation(), Hit, nullptr, this, DamageType);
+			AEnemyPawn *EnemyPawn = Cast<AEnemyPawn>(Pawn);
+			if (EnemyPawn)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this->GetWorld(), EnemyPawn->GetHitSound(), this->GetActorLocation());
+			}
+		}
+		else
+		{
+			UGameplayStatics::PlaySoundAtLocation(this->GetWorld(), TextureSound, this->GetActorLocation());
 		}
 	}
 	if (BulletExplosion)

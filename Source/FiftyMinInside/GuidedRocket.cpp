@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "BulletExplosion.h"
+#include "Sound/SoundBase.h"
 
 AGuidedRocket::AGuidedRocket()
 {
@@ -32,6 +33,7 @@ void AGuidedRocket::BeginPlay()
 {
 	Super::BeginPlay();
 	BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(MaterialInstance));
+	UGameplayStatics::PlaySoundAtLocation(this->GetWorld(), SpawnSound, this->GetActorLocation());
 
 }
 
@@ -62,5 +64,6 @@ void AGuidedRocket::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector N
 		launcher->ResetFiring();
 	}
 	this->ClearRenderTexture();
+	UGameplayStatics::PlaySoundAtLocation(this->GetWorld(), DestroyedSound, this->GetActorLocation());
 	Destroy();
 }

@@ -12,7 +12,7 @@
 #include "Weapon.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SphereComponent.h"
-
+#include "Sound/SoundBase.h"
 
 // Sets default values
 AEnemyPawn::AEnemyPawn()
@@ -132,3 +132,7 @@ void AEnemyPawn::RemoveNeighbor(UPrimitiveComponent* OverlappedComp, AActor* Oth
 	}
 }
 
+USoundBase* AEnemyPawn::GetHitSound()
+{
+	return HitSound;
+}
