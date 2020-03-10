@@ -49,6 +49,8 @@ public:
 
 	TArray<AEnemyPawn*> Neighbors;
 
+	FVector FlokingLocation;
+
 public:
 	// Sets default values for this pawn's properties
 	AEnemyPawn();

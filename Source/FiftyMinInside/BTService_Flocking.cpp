@@ -47,7 +47,8 @@ void UBTService_Flocking::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Nod
 					}
 				}
 				SeparationComponent *= (1.0f + Pawn->Neighbors.Num() / 5.0f) * 100.0f;
-				OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Vector>(Controller->FlokingLocationKeyID, Pawn->GetActorLocation() + CohesionComponent + SeparationComponent);
+				Pawn->FlokingLocation = Pawn->GetActorLocation() + CohesionComponent + SeparationComponent;
+				//OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Vector>(Controller->FlokingLocationKeyID, Pawn->GetActorLocation() + CohesionComponent + SeparationComponent);
 			}
 		}
 
