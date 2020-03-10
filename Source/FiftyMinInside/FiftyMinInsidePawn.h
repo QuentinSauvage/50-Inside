@@ -191,6 +191,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 		FORCEINLINE float GetHealth() const { return PercentageHealth; }
 
+	UFUNCTION(BlueprintCallable, Category = Weapon)
+		FORCEINLINE AWeapon* GetCurrentWeapon() const { return WeaponsList[SelectedWeapon]; }
+
 	UFUNCTION(BlueprintCallable, Category = Health)
 		float UpdateHealth(float HealthChange);
 
