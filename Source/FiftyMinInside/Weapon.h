@@ -19,11 +19,11 @@ public:
 
 	void StopFire();
 
+	bool CanFire();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-	bool CanFire();
 
 	virtual void FireProjectile();
 
