@@ -113,33 +113,32 @@ void AFiftyMinInsidePawn::BeginPlay()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	FVector LauncherOffset = FVector::ZeroVector;
-	//RocketLauncherOffset.X += 200.f;
-	LauncherOffset.X += 150.f;
+	FVector RocketLauncherOffset = GetActorLocation();
+	RocketLauncherOffset.X += 200.f;
+	RocketLauncherOffset.Z -= 25.f;
 
 	for (int i = 0; i < WeaponsClass.Num(); ++i) {
 		RocketsList[i] = GetWorld()->SpawnActor<AWeapon>(RocketsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 		if (!RocketsList[i])
 			RocketsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
 		RocketsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-		RocketsList[i]->SetActorLocation(GetActorLocation());
-		RocketsList[i]->AddActorLocalOffset(LauncherOffset);
+		FVector WeaponOffset = RocketLauncherOffset;
+		RocketsList[i]->SetActorLocation(WeaponOffset);
 	}
 
 	FlareLauncher = GetWorld()->SpawnActor<AWeapon>(FlareClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 	if (!FlareLauncher)
 		FlareLauncher = CreateDefaultSubobject<AWeapon>(TEXT("FlareLauncher"));
 	FlareLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-	FlareLauncher->SetActorLocation(GetActorLocation());
-	FlareLauncher->AddActorLocalOffset(LauncherOffset);
+	FlareLauncher->SetActorLocation(RocketLauncherOffset);
 
 	for (int i = 0; i < WeaponsClass.Num(); ++i) {
 		WeaponsList[i] = GetWorld()->SpawnActor<AWeapon>(WeaponsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 		if (!WeaponsList[i])
 			WeaponsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
 		WeaponsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-		WeaponsList[i]->SetActorLocation(GetActorLocation());
-		WeaponsList[i]->AddActorLocalOffset(LauncherOffset);
+		FVector WeaponOffset = RocketLauncherOffset;
+		WeaponsList[i]->SetActorLocation(WeaponOffset);
 	}
 }
 
