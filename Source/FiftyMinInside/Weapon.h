@@ -19,11 +19,11 @@ public:
 
 	void StopFire();
 
+	bool CanFire();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-	bool CanFire();
 
 	virtual void FireProjectile();
 
@@ -32,7 +32,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	float GetMunitionCount();
+	UFUNCTION(BlueprintCallable, Category = Munition)
+		float GetMunitionCount();
+
+	UFUNCTION(BlueprintCallable, Category = Munition)
+		FORCEINLINE bool IsUsingMunition() { return bUseMunition; }
 
 	float GetBaseMunitionCount();
 

@@ -37,7 +37,7 @@ public:
 		TSubclassOf<class AWeapon> WeaponClass;
 
 	UPROPERTY(EditAnywhere, Category = Armaments)
-		 AWeapon* MainWeapon;
+		AWeapon* MainWeapon;
 
 	UPROPERTY(EditAnywhere, Category = Behavior)
 		class UBehaviorTree* Behavior;
@@ -48,6 +48,8 @@ public:
 	FVector CurrentDirection;
 
 	TArray<AEnemyPawn*> Neighbors;
+
+	FVector FlokingLocation;
 
 public:
 	// Sets default values for this pawn's properties
@@ -60,12 +62,14 @@ public:
 	void StopFire();
 
 	UFUNCTION(BlueprintCallable, Category = Overlap)
-	void AddNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void AddNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION(BlueprintCallable, Category = Overlap)
-	void RemoveNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+		void RemoveNeighbor(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	USoundBase* GetHitSound();
+
+	bool CanFireTo(AActor* Other);
 
 protected:
 	// Called when the game starts or when spawned

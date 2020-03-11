@@ -14,26 +14,15 @@
 EBTNodeResult::Type UBTTask_Fire::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AEnemyPawnController* Controller = Cast<AEnemyPawnController>(OwnerComp.GetAIOwner());
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("fire")));
-
 	if (Controller)
 	{
-		APawn* Enemy = Cast<APawn>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(Controller->TargetKeyID));
+		APawn* Target = Cast<APawn>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(Controller->TargetKeyID));
 		AEnemyPawn* Pawn = Cast<AEnemyPawn>(Controller->GetPawn());
 		if (Pawn)
 		{
-			if (Enemy) // && can touch target
+			if (Target && Pawn->CanFireTo(Target))
 			{
 				Pawn->OnFire();
-				/*FVector Forward = (Enemy->GetActorLocation() - Char->GetActorLocation());
-				FVector StartTmp = Char->GetActorLocation();
-				StartTmp.Z += 50.0f;
-				if (Char->CurrentWeapon->CanTouch(Enemy, StartTmp, Forward))
-				{
-					Char->FireToDirection(Forward);
-					Char->StopFire();
-					return EBTNodeResult::Succeeded;
-				}*/
 				return EBTNodeResult::Succeeded;
 			}
 			Pawn->StopFire();
