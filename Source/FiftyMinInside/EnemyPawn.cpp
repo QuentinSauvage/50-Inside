@@ -92,6 +92,19 @@ void AEnemyPawn::UpdateHealth(float HealthChange)
 	//PercentageHealth = RemainingHealth / FullHealth;
 	if (RemainingHealth == 0.0f)
 	{
+		float r = FMath::FRand();
+		if (r < 0.33f)
+		{
+			this->DropAmmo();
+		}
+		else if (r < 0.66f)
+		{
+			this->DropHealth();
+		}
+		else if (r < 0.8f)
+		{
+			this->DropRocket();
+		}
 		MainWeapon->Destroy();
 		Destroy();
 	}

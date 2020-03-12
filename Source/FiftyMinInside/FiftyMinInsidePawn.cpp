@@ -117,7 +117,7 @@ void AFiftyMinInsidePawn::BeginPlay()
 	//RocketLauncherOffset.X += 200.f;
 	LauncherOffset.X += 150.f;
 
-	for (int i = 0; i < WeaponsClass.Num(); ++i) {
+	for (int i = 0; i < RocketsClass.Num(); ++i) {
 		RocketsList[i] = GetWorld()->SpawnActor<AWeapon>(RocketsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 		if (!RocketsList[i])
 			RocketsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
@@ -373,8 +373,9 @@ void AFiftyMinInsidePawn::SetGuidedRocket(AGuidedRocket* Rocket)
 
 bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%f - %f "), WeaponsList[WeaponIndex]->GetMunitionCount(), WeaponsList[WeaponIndex]->GetBaseMunitionCount()));
 	if (bWeapon) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Collect!")));
+
 		if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
 		{
 			return false;
@@ -384,6 +385,7 @@ bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 		SelectedWeapon = WeaponIndex;
 	}
 	else {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("CollectSpecial!")));
 		if (RocketsList[WeaponIndex]->GetMunitionCount() == RocketsList[WeaponIndex]->GetBaseMunitionCount())
 		{
 			return false;
@@ -393,4 +395,16 @@ bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 		SelectedRocket = WeaponIndex;
 	}
 	return true;
+}
+
+int AFiftyMinInsidePawn::PickWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Pick!")));
+	return rand() % WeaponsClass.Num();
+}
+
+int AFiftyMinInsidePawn::PickSpecialWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("PickSpecial!")));
+	return rand() % RocketsClass.Num();
 }

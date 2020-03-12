@@ -206,5 +206,12 @@ public:
 	* @WeaponIndex index of the collected weapon
 	* @bWeapon if the collected weapon is a classic weapon or a rocket launcher
 	*/
+	UFUNCTION(BlueprintCallable, Category = Armaments)
 	bool CollectWeapon(int WeaponIndex, bool bWeapon);
+
+	UFUNCTION(BlueprintCallable, Category = Armaments)
+		int PickWeapon();
+
+	UFUNCTION(BlueprintCallable, Category = Armaments)
+		int PickSpecialWeapon();
 };
