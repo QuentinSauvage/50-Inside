@@ -25,7 +25,7 @@ ABullet::ABullet()
 
 	MaterialInstance = CreateDefaultSubobject<UMaterialInterface>("Material");
 	OnActorHit.AddDynamic(this, &ABullet::OnBulletHit);
-	InitialLifeSpan = 5.0f;
+	InitialLifeSpan = 2.0f;
 
 }
 

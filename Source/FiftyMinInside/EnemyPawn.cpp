@@ -139,13 +139,13 @@ USoundBase* AEnemyPawn::GetHitSound()
 
 bool AEnemyPawn::CanFireTo(AActor* Other)
 {
-	FHitResult Hit;
-	FCollisionQueryParams CollisionParameters;
-	CollisionParameters.AddIgnoredActor(this);
-	CollisionParameters.AddIgnoredActor(MainWeapon);
-
 	if (MainWeapon->CanFire())
 	{
+		FHitResult Hit;
+		FCollisionQueryParams CollisionParameters;
+		CollisionParameters.AddIgnoredActor(this);
+		CollisionParameters.AddIgnoredActor(MainWeapon);
+
 		if (GetWorld()->LineTraceSingleByChannel(Hit, MainWeapon->GetActorLocation(), Other->GetActorLocation(), ECC_Pawn, CollisionParameters))
 		{
 			if (Hit.GetActor())
