@@ -23,7 +23,7 @@ EBTNodeResult::Type UBTTask_Fire::ExecuteTask(UBehaviorTreeComponent& OwnerComp,
 			if (Target)
 			{
 				float DistanceToTarget = (Pawn->GetActorLocation() - Target->GetActorLocation()).Size();
-				if (DistanceToTarget < 20000 && Pawn->CanFireTo(Target))
+				if (DistanceToTarget < Controller->VisionRange && Pawn->CanFireTo(Target))
 				{
 					Pawn->OnFire();
 					return EBTNodeResult::Succeeded;

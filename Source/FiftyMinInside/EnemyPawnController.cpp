@@ -12,6 +12,7 @@
 AEnemyPawnController::AEnemyPawnController() {
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 	BehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorComp"));
+	VisionRange = 20000;
 }
 
 void AEnemyPawnController::OnPossess(APawn* InPawn)
