@@ -92,6 +92,7 @@ void AEnemyPawn::UpdateHealth(float HealthChange)
 	//PercentageHealth = RemainingHealth / FullHealth;
 	if (RemainingHealth == 0.0f)
 	{
+		this->UpdateGameCounter();
 		float r = FMath::FRand();
 		if (r < 0.33f)
 		{

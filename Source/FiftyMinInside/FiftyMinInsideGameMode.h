@@ -13,21 +13,28 @@ class AFiftyMinInsideGameMode : public AGameModeBase
 
 	int TargetCounter;
 	int PickUpsCounter;
+	bool EnemiesMode;
 
 public:
 	AFiftyMinInsideGameMode();
 
-	UFUNCTION(BlueprintCallable, Category = Health)
+	UFUNCTION(BlueprintCallable, Category = Objectives)
 	int GetTargetCounter();
 
-	UFUNCTION(BlueprintCallable, Category = Health)
+	UFUNCTION(BlueprintCallable, Category = Objectives)
 	void SetTargetCounter(int NewTargetCounter);
 	
-	UFUNCTION(BlueprintCallable, Category = Health)
+	UFUNCTION(BlueprintCallable, Category = Objectives)
 	int GetPickUpsCounter();
 	
-	UFUNCTION(BlueprintCallable, Category = Health)
+	UFUNCTION(BlueprintCallable, Category = Objectives)
 	void SetPickUpsCounter(int NewPickUpsCounter);
+
+	UFUNCTION(BlueprintCallable, Category = Objectives)
+	void SetLevelMode(bool Mode);
+
+	UFUNCTION(BlueprintCallable, Category = Objectives)
+	bool GetLevelMode();
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = EndGame)

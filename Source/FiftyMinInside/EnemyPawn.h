@@ -88,4 +88,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void UpdateHealth(float HealthChange);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Objectives)
+		void UpdateGameCounter();
 };
