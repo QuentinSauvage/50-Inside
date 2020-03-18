@@ -7,4 +7,41 @@ AFiftyMinInsideGameMode::AFiftyMinInsideGameMode()
 {
 	// set default pawn class to our flying pawn
 	DefaultPawnClass = AFiftyMinInsidePawn::StaticClass();
+	EnemiesMode = false;
+
+}
+
+int AFiftyMinInsideGameMode::GetTargetCounter()
+{
+	return TargetCounter;
+}
+
+void AFiftyMinInsideGameMode::SetTargetCounter(int NewTargetCounter)
+{
+	TargetCounter += NewTargetCounter;
+
+	if (!TargetCounter && !PickUpsCounter)
+	{
+		this->OnLevelCleared();
+	}
+}
+
+int AFiftyMinInsideGameMode::GetPickUpsCounter()
+{
+	return PickUpsCounter;
+}
+
+void AFiftyMinInsideGameMode::SetPickUpsCounter(int NewPickUpsCounter)
+{
+	PickUpsCounter += NewPickUpsCounter;
+}
+
+void AFiftyMinInsideGameMode::SetLevelMode(bool Mode)
+{
+	EnemiesMode = Mode;
+}
+
+bool AFiftyMinInsideGameMode::GetLevelMode()
+{
+	return EnemiesMode;
 }

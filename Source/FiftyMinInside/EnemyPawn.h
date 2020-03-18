@@ -77,6 +77,18 @@ protected:
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = Armaments)
+		void DropAmmo();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Armaments)
+		void DropRocket();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Health)
+		void DropHealth();
+
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void UpdateHealth(float HealthChange);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Objectives)
+		void UpdateGameCounter();
 };
