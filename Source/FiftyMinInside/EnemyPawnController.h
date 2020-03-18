@@ -26,8 +26,11 @@ public:
 
 	virtual void OnPossess(APawn* InPawn) override;
 
+public:
 	uint8 DirectionKeyID;
 	uint8 TargetKeyID;
 	uint8 FlokingLocationKeyID;
 
+	UPROPERTY(EditAnywhere)
+	float VisionRange;
 };

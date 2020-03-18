@@ -20,10 +20,14 @@ EBTNodeResult::Type UBTTask_Fire::ExecuteTask(UBehaviorTreeComponent& OwnerComp,
 		AEnemyPawn* Pawn = Cast<AEnemyPawn>(Controller->GetPawn());
 		if (Pawn)
 		{
-			if (Target && Pawn->CanFireTo(Target))
+			if (Target)
 			{
-				Pawn->OnFire();
-				return EBTNodeResult::Succeeded;
+				float DistanceToTarget = (Pawn->GetActorLocation() - Target->GetActorLocation()).Size();
+				if (DistanceToTarget < Controller->VisionRange && Pawn->CanFireTo(Target))
+				{
+					Pawn->OnFire();
+					return EBTNodeResult::Succeeded;
+				}
 			}
 			Pawn->StopFire();
 			OwnerComp.GetBlackboardComponent()->ClearValue(Controller->TargetKeyID);
