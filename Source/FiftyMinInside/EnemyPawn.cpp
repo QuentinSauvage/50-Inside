@@ -70,7 +70,7 @@ void AEnemyPawn::BeginPlay()
 		MainWeapon = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
 	MainWeapon->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 	FVector MainWeaponOffset = MainWeapon->GetActorLocation();
-	MainWeaponOffset.X += 200.f;
+	//MainWeaponOffset.X += 200.f;
 	MainWeaponOffset.Z -= 25.f;
 	MainWeapon->SetActorLocation(MainWeaponOffset);
 
