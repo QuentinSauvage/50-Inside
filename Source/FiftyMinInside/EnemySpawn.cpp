@@ -4,12 +4,24 @@
 #include "EnemySpawn.h"
 #include "EnemyPawn.h"
 #include "Engine/World.h"
+#include "FiftyMinInsidePawn.h"
+#include "Components/SphereComponent.h"
+#include "DrawDebugHelpers.h"
 #include "TimerManager.h"
 
 AEnemySpawn::AEnemySpawn()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
+
 	DelayBetweenSpawns = 10.0f;
 	LastSpawn = 0.0f;
+	bPlayerNear = false;
+}
+
+void AEnemySpawn::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 void AEnemySpawn::BeginPlay()
@@ -21,9 +33,12 @@ void AEnemySpawn::BeginPlay()
 void AEnemySpawn::Spawn()
 {
 	if (EnemyClass) {
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-		AEnemyPawn* Spawned = GetWorld()->SpawnActor<AEnemyPawn>(EnemyClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+		if (bPlayerNear)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+			AEnemyPawn* Spawned = GetWorld()->SpawnActor<AEnemyPawn>(EnemyClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+		}
 		LastSpawn = GetWorld()->GetTimeSeconds();
 	}
 }

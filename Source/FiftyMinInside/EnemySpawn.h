@@ -20,15 +20,24 @@ public:
 
 	float LastSpawn;
 
+	UPROPERTY(EditAnywhere)
+		float Radius;
+
 	FTimerHandle TimeHandleSpawning;
 
 public:
 	// Sets default values for this actor's properties
 	AEnemySpawn();
 
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bPlayerNear;
 
 	void Spawn();
 };
