@@ -27,13 +27,14 @@ ABullet::ABullet()
 	OnActorHit.AddDynamic(this, &ABullet::OnBulletHit);
 	InitialLifeSpan = 2.0f;
 
+	bUseSpecificMaterial = false;
 }
 
 // Called when the game starts or when spawned
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
-	BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(MaterialInstance));
+	if(!bUseSpecificMaterial) BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(MaterialInstance));
 	UGameplayStatics::PlaySoundAtLocation(this->GetWorld(), SpawnSound, this->GetActorLocation());
 }
 

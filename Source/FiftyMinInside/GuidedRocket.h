@@ -37,9 +37,6 @@ protected:
 		float DamageValue;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-		class UMaterialInterface* MaterialInstance;
-
-	UPROPERTY(EditAnywhere, Category = "Components")
 		class UParticleSystem* SpawnParticle;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Rendering")

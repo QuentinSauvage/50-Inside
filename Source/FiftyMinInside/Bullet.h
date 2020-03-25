@@ -50,6 +50,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class USoundBase *TextureSound;
 
+	UPROPERTY(EditAnywhere, Category = "Components")
+		bool bUseSpecificMaterial;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

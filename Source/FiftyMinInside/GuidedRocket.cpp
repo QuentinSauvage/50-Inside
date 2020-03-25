@@ -24,15 +24,12 @@ AGuidedRocket::AGuidedRocket()
 	BulletMovement->bRotationFollowsVelocity = true;
 	BulletMovement->ProjectileGravityScale = 0.f;
 
-	MaterialInstance = CreateDefaultSubobject<UMaterial>("Material");
-
 	OnActorHit.AddDynamic(this, &AGuidedRocket::OnBulletHit);
 }
 
 void AGuidedRocket::BeginPlay()
 {
 	Super::BeginPlay();
-	BulletMesh->SetMaterial(0, Cast<UMaterialInterface>(MaterialInstance));
 	UGameplayStatics::PlaySoundAtLocation(this->GetWorld(), SpawnSound, this->GetActorLocation());
 
 }
