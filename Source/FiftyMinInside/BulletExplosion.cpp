@@ -48,7 +48,6 @@ void ABulletExplosion::Tick(float DeltaTime)
 
 void ABulletExplosion::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Enter")));
 	if (OtherActor && OtherActor != this) {
 		APawn* Pawn = Cast<APawn>(OtherActor);
 		if (Pawn) {

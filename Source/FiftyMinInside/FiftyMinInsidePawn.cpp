@@ -114,24 +114,12 @@ void AFiftyMinInsidePawn::BeginPlay()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	FVector LauncherOffset = FVector::ZeroVector;
-	//RocketLauncherOffset.X += 200.f;
-	LauncherOffset.X += 300.f;
-
-	for (int i = 0; i < RocketsClass.Num(); ++i) {
-		RocketsList[i] = GetWorld()->SpawnActor<AWeapon>(RocketsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-		if (!RocketsList[i])
-			RocketsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
-		RocketsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-		RocketsList[i]->SetActorLocation(GetActorLocation());
-		RocketsList[i]->AddActorLocalOffset(LauncherOffset);
-	}
 
 	FlareLauncher = GetWorld()->SpawnActor<AWeapon>(FlareClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 	if (!FlareLauncher)
 		FlareLauncher = CreateDefaultSubobject<AWeapon>(TEXT("FlareLauncher"));
 	FlareLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-	LauncherOffset.X += 200.f;
-	FlareLauncher->SetActorLocation(GetActorLocation());
+	LauncherOffset.X += 600.f;
 	FlareLauncher->AddActorLocalOffset(LauncherOffset);
 
 	for (int i = 0; i < WeaponsClass.Num(); ++i) {
@@ -139,9 +127,15 @@ void AFiftyMinInsidePawn::BeginPlay()
 		if (!WeaponsList[i])
 			WeaponsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
 		WeaponsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-		LauncherOffset.X += 100.f;
-		WeaponsList[i]->SetActorLocation(GetActorLocation());
 		WeaponsList[i]->AddActorLocalOffset(LauncherOffset);
+	}
+
+	for (int i = 0; i < RocketsClass.Num(); ++i) {
+		RocketsList[i] = GetWorld()->SpawnActor<AWeapon>(RocketsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+		if (!RocketsList[i])
+			RocketsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
+		RocketsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+		RocketsList[i]->AddActorLocalOffset(LauncherOffset);
 	}
 }
 

@@ -38,8 +38,8 @@ void ARocketLauncher::FireProjectile() {
 		SpawnParams.bNoFail = true;
 		SpawnParams.Owner = this;
 
-		FVector Offset = FVector(0.f, 0.f, 0.f);
-		Offset.Y += (bFireLeft) ? -100.f : 100.f;
+		FVector Offset = FVector(-500.f, 0.f, 0.f);
+		Offset.Y += (bFireLeft) ? -300.f : 300.f;
 		Offset = GetTransform().TransformPosition(Offset);
 		bFireLeft = !bFireLeft;
 
@@ -48,7 +48,7 @@ void ARocketLauncher::FireProjectile() {
 		BulletTransform.SetRotation(GetActorRotation().Quaternion());
 		BulletTransform.SetScale3D(FVector(1.f));
 
-		GetWorld()->SpawnActor <ABullet>(BulletClass, BulletTransform, SpawnParams);
+		ABullet *bullet = GetWorld()->SpawnActor <ABullet>(BulletClass, BulletTransform, SpawnParams);
 	}
 
 	if (bTryFire)
