@@ -49,8 +49,8 @@ void AGuidedRocketLauncher::FireProjectile() {
 		SpawnParams.bNoFail = true;
 		SpawnParams.Owner = this;
 
-		FVector Offset = FVector(0.f, 0.f, 0.f);
-		Offset.Y += (bFireLeft) ? -100.f : 100.f;
+		FVector Offset = FVector(-500.f, 0.f, 0.f);
+		Offset.Y += (bFireLeft) ? -300.f : 300.f;
 		Offset = GetTransform().TransformPosition(Offset);
 		bFireLeft = !bFireLeft;
 

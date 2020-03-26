@@ -364,6 +364,9 @@ float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 
 void AFiftyMinInsidePawn::SetGuidedRocket(AGuidedRocket* Rocket)
 {
+	GuidedForwardSpeed = 0;
+	CurrentGuidedRightSpeed = 0;
+	CurrentGuidedUpSpeed = 0;
 	GuidedRocket = Rocket;
 }
 
