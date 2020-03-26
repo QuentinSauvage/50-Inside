@@ -115,7 +115,7 @@ void AFiftyMinInsidePawn::BeginPlay()
 
 	FVector LauncherOffset = FVector::ZeroVector;
 	//RocketLauncherOffset.X += 200.f;
-	LauncherOffset.X += 150.f;
+	LauncherOffset.X += 300.f;
 
 	for (int i = 0; i < RocketsClass.Num(); ++i) {
 		RocketsList[i] = GetWorld()->SpawnActor<AWeapon>(RocketsClass[i], FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
@@ -130,6 +130,7 @@ void AFiftyMinInsidePawn::BeginPlay()
 	if (!FlareLauncher)
 		FlareLauncher = CreateDefaultSubobject<AWeapon>(TEXT("FlareLauncher"));
 	FlareLauncher->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+	LauncherOffset.X += 200.f;
 	FlareLauncher->SetActorLocation(GetActorLocation());
 	FlareLauncher->AddActorLocalOffset(LauncherOffset);
 
@@ -138,6 +139,7 @@ void AFiftyMinInsidePawn::BeginPlay()
 		if (!WeaponsList[i])
 			WeaponsList[i] = CreateDefaultSubobject<AWeapon>(TEXT("Weapon"));
 		WeaponsList[i]->AttachToComponent(PlaneMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+		LauncherOffset.X += 100.f;
 		WeaponsList[i]->SetActorLocation(GetActorLocation());
 		WeaponsList[i]->AddActorLocalOffset(LauncherOffset);
 	}
