@@ -345,7 +345,7 @@ void AFiftyMinInsidePawn::OnPreviousRocket()
 float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	UpdateHealth(-DamageAmount);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player new health %f "), RemainingHealth));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player new health %f "), RemainingHealth));
 	return DamageAmount;
 }
 
@@ -354,15 +354,24 @@ float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 	float previousHealth = RemainingHealth;
 	RemainingHealth += HealthChange;
 	RemainingHealth = FMath::Clamp(RemainingHealth, 0.0f, FullHealth);
-	PercentageHealth = RemainingHealth / FullHealth;
 	if (RemainingHealth == 0)
 	{
-		this->DisplayGameOver();
+		if (RemainingLives == 1)
+		{
+			this->DisplayGameOver();
+		}
+		else
+		{
+			--RemainingLives;
+			RemainingHealth = FullHealth;
+			this->UpdateFireParticles();
+		}
 	}
 	else if ((RemainingHealth < 50 && previousHealth >= 50) || (RemainingHealth >= 50 && previousHealth < 50))
 	{
 		this->UpdateFireParticles();
 	}
+	PercentageHealth = RemainingHealth / FullHealth;
 	return RemainingHealth;
 }
 
@@ -377,7 +386,6 @@ void AFiftyMinInsidePawn::SetGuidedRocket(AGuidedRocket* Rocket)
 bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 {
 	if (bWeapon) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Collect!")));
 
 		if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
 		{
@@ -388,7 +396,6 @@ bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 		SelectedWeapon = WeaponIndex;
 	}
 	else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("CollectSpecial!")));
 		if (RocketsList[WeaponIndex]->GetMunitionCount() == RocketsList[WeaponIndex]->GetBaseMunitionCount())
 		{
 			return false;
@@ -402,12 +409,10 @@ bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 
 int AFiftyMinInsidePawn::PickWeapon()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Pick!")));
 	return rand() % WeaponsClass.Num();
 }
 
 int AFiftyMinInsidePawn::PickSpecialWeapon()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("PickSpecial!")));
 	return rand() % RocketsClass.Num();
 }

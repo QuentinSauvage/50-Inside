@@ -166,6 +166,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = Health)
 		float PercentageHealth;
 
+	/** Remining lives*/
+	UPROPERTY(EditAnywhere, Category = Health)
+		float RemainingLives;
+
 	/** RocketLauncher that is shooting */
 	bool bLeftSpecialShooting;
 
@@ -190,8 +194,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 		FORCEINLINE float GetHealth() const { return PercentageHealth; }
 
+	UFUNCTION(BlueprintCallable, Category = Health)
+		FORCEINLINE float GetLives() const { return RemainingLives; }
+
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 		FORCEINLINE AWeapon* GetCurrentWeapon() const { return WeaponsList[SelectedWeapon]; }
+
+	UFUNCTION(BlueprintCallable, Category = Weapon)
+		FORCEINLINE AWeapon* GetCurrenRocket() const { return RocketsList[SelectedRocket]; }
 
 	UFUNCTION(BlueprintCallable, Category = Health)
 		float UpdateHealth(float HealthChange);
