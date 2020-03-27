@@ -199,6 +199,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Health)
 		void DisplayGameOver();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = Health)
+		void UpdateFireParticles();
+
 	void SetGuidedRocket(class AGuidedRocket* Rocket);
 
 	/* Collects a weapon from a pick up

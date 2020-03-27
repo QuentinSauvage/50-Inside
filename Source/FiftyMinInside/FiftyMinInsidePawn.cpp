@@ -351,12 +351,17 @@ float AFiftyMinInsidePawn::TakeDamage(float DamageAmount, FDamageEvent const& Da
 
 float AFiftyMinInsidePawn::UpdateHealth(float HealthChange)
 {
+	float previousHealth = RemainingHealth;
 	RemainingHealth += HealthChange;
 	RemainingHealth = FMath::Clamp(RemainingHealth, 0.0f, FullHealth);
 	PercentageHealth = RemainingHealth / FullHealth;
 	if (RemainingHealth == 0)
 	{
 		this->DisplayGameOver();
+	}
+	else if ((RemainingHealth < 50 && previousHealth >= 50) || (RemainingHealth >= 50 && previousHealth < 50))
+	{
+		this->UpdateFireParticles();
 	}
 	return RemainingHealth;
 }
