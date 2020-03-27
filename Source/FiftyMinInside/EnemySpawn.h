@@ -36,7 +36,7 @@ protected:
 	virtual void BeginPlay() override;
 
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bPlayerNear;
 
 	void Spawn();

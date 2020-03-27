@@ -19,4 +19,6 @@ public:
 
 	UBTTask_Rotate3D(const FObjectInitializer& ObjectInitializer);
 
+	bool CanHit(class AEnemyPawn* Pawn, FVector Location);
+
 };

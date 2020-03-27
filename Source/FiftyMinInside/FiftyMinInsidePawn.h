@@ -50,8 +50,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Armaments)
 		TSubclassOf<AWeapon> FlareClass;
 
-	FVector LocalMove;
-
 public:
 	AFiftyMinInsidePawn();
 
@@ -141,15 +139,6 @@ private:
 	UPROPERTY(Category = Movement, EditAnywhere)
 		float MinSpeed;
 
-	/** Current forward speed */
-	float CurrentForwardSpeed;
-
-	/** Current right speed */
-	float CurrentRightSpeed;
-
-	/** Current up speed */
-	float CurrentUpSpeed;
-
 	/** Current yaw speed */
 	float CurrentYawSpeed;
 
@@ -181,6 +170,16 @@ private:
 	bool bLeftSpecialShooting;
 
 public:
+
+	/** Current forward speed */
+	float CurrentForwardSpeed;
+
+	/** Current right speed */
+	float CurrentRightSpeed;
+
+	/** Current up speed */
+	float CurrentUpSpeed;
+
 	/** Returns PlaneMesh subobject **/
 	FORCEINLINE class UStaticMeshComponent* GetPlaneMesh() const { return PlaneMesh; }
 	/** Returns SpringArm subobject **/
