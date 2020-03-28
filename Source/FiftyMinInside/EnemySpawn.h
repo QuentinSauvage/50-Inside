@@ -18,6 +18,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		float DelayBetweenSpawns;
 
+	UPROPERTY(EditAnywhere)
+		bool bArenaSpawn;
+
 	float LastSpawn;
 
 	UPROPERTY(EditAnywhere)
@@ -35,9 +38,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Delays the first spawn to help the player
+	bool bFirstLoop;
+
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bPlayerNear;
 
-	void Spawn();
+	virtual void Spawn();
 };
