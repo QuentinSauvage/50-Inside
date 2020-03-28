@@ -5,6 +5,7 @@
 #include "Components/SphereComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 ABulletExplosion::ABulletExplosion()
@@ -21,7 +22,7 @@ ABulletExplosion::ABulletExplosion()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(RootComponent);
 
-	MaterialInstance = CreateDefaultSubobject<UMaterial>("Material");
+	MaterialInstance = CreateDefaultSubobject<UMaterialInterface>("Material");
 }
 
 void ABulletExplosion::Init(TSubclassOf<UDamageType> BulletDamageType, float DamageValue)
