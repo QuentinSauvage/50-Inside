@@ -84,6 +84,9 @@ void ABullet::OnBulletHit(AActor* SelfActor, AActor* OtherActor, FVector NormalI
 	}
 
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SpawnParticle, GetActorLocation());
-	Destroy();
+	if (BounceCount == 0)
+		Destroy();
+	else
+		--BounceCount;
 }
 

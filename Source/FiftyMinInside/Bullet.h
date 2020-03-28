@@ -44,6 +44,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 		bool bSticky;
 
+	UPROPERTY(Category = Movement, EditAnywhere)
+		int BounceCount;
+
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class USoundBase *SpawnSound;
 
