@@ -8,6 +8,8 @@ AFiftyMinInsideGameMode::AFiftyMinInsideGameMode()
 	// set default pawn class to our flying pawn
 	DefaultPawnClass = AFiftyMinInsidePawn::StaticClass();
 	EnemiesMode = false;
+	TargetCounter = 0;
+	PickUpsCounter = 0;
 
 }
 
@@ -19,8 +21,8 @@ int AFiftyMinInsideGameMode::GetTargetCounter()
 void AFiftyMinInsideGameMode::SetTargetCounter(int NewTargetCounter)
 {
 	TargetCounter += NewTargetCounter;
-
-	if (!TargetCounter && !PickUpsCounter)
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%f"), TargetCounter));
+	if (!TargetCounter)
 	{
 		this->OnLevelCleared();
 	}
