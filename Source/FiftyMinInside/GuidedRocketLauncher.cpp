@@ -11,6 +11,7 @@ AGuidedRocketLauncher::AGuidedRocketLauncher() {
 	bFiring = false;
 	APawn* pawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	Player = Cast<AFiftyMinInsidePawn>(pawn);
+	MunitionCount = 0.f;
 }
 
 void AGuidedRocketLauncher::ResetFiring()
@@ -18,6 +19,12 @@ void AGuidedRocketLauncher::ResetFiring()
 	bFiring = false;
 	Player->SetGuidedRocket(nullptr);
 }
+
+void AGuidedRocketLauncher::BeginPlay()
+{
+	MunitionCount = 0;
+}
+
 
 bool AGuidedRocketLauncher::GetFiring()
 {
@@ -28,7 +35,6 @@ void AGuidedRocketLauncher::Fire()
 {
 	if (!bFiring)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew Guided!"));
 		FireProjectile();
 	}
 }
@@ -36,10 +42,8 @@ void AGuidedRocketLauncher::Fire()
 void AGuidedRocketLauncher::FireProjectile() {
 	if (RocketClass)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew Pew Guided!"));
 
 		if (MunitionCount == 0) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("BaseMunitionCount %f "), BaseMunitionCount));
 			return;
 		}
 		--MunitionCount;
@@ -63,8 +67,6 @@ void AGuidedRocketLauncher::FireProjectile() {
 
 		if (Player)
 			Player->SetGuidedRocket(Rocket);
-		else
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("no player!"));
 		bFiring = true;
 	}
 }

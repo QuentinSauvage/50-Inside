@@ -386,7 +386,6 @@ void AFiftyMinInsidePawn::SetGuidedRocket(AGuidedRocket* Rocket)
 bool AFiftyMinInsidePawn::CollectWeapon(int WeaponIndex, bool bWeapon)
 {
 	if (bWeapon) {
-
 		if (WeaponsList[WeaponIndex]->GetMunitionCount() == WeaponsList[WeaponIndex]->GetBaseMunitionCount())
 		{
 			return false;

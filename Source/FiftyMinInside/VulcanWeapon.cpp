@@ -10,7 +10,6 @@ void AVulcanWeapon::FireProjectile() {
 	if (BulletClass)
 	{
 		if (bUseMunition && MunitionCount == 0) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No ammo")));
 			return;
 		}
 		--MunitionCount;

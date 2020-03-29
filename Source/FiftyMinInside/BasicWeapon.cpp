@@ -9,8 +9,6 @@
 void ABasicWeapon::FireProjectile() {
 	if (BulletClass)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew Basic!"));
-
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.bNoFail = true;

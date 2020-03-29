@@ -21,7 +21,6 @@ int AFiftyMinInsideGameMode::GetTargetCounter()
 void AFiftyMinInsideGameMode::SetTargetCounter(int NewTargetCounter)
 {
 	TargetCounter += NewTargetCounter;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%f"), TargetCounter));
 	if (!TargetCounter)
 	{
 		this->OnLevelCleared();

@@ -14,6 +14,7 @@ ARocketLauncher::ARocketLauncher() {
 
 void ARocketLauncher::BeginPlay()
 {
+	Super::BeginPlay();
 	MunitionCount = BaseMunitionCount;
 }
 
@@ -25,10 +26,8 @@ void ARocketLauncher::Fire()
 void ARocketLauncher::FireProjectile() {
 	if (BulletClass)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Pew Rocket!"));
 
 		if (MunitionCount == 0) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("BaseMunitionCount %f "), BaseMunitionCount));
 			return;
 		}
 		--MunitionCount;

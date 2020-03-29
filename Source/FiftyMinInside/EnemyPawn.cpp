@@ -81,7 +81,6 @@ void AEnemyPawn::BeginPlay()
 float AEnemyPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	UpdateHealth(-DamageAmount);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Enemy new health %f "), RemainingHealth));
 	return DamageAmount;
 }
 

@@ -17,6 +17,8 @@ class FIFTYMININSIDE_API AGuidedRocketLauncher : public ARocketLauncher
 	public:
 		AGuidedRocketLauncher();
 
+		virtual void BeginPlay() override;
+
 		void ResetFiring();
 
 		bool GetFiring();
