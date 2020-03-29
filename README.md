@@ -1,23 +1,34 @@
 # 50' Inside
 Remake of the famous FPS game Descent, made in 1995, made under UE.
 
-_This project is currently in work of progress. More will come soon._
+### Controls
+Fire: Left Mouse Button/Left Ctrl/Right Ctrl
 
-### Links for assets
+Fire Special: Right Mouse Button/Space Bar
+
+Fire Flare: F
+
+Next Weapon: N
+
+Previous Weapon: B
+
+Pause: P/Escape
+
+Move Forward/Backward: Z/S
+
+Move Left/Right: D/Q
+
+Turn horizontally: Mouse X/Left arrow and right arrow
+
+Turn vertically: Mouse Y/Up arrow down arrow
+
+Roll: A/E
+
+Move Up/Down: C/X
+
+Move Guided Rocket Up: G/J
+
+Move Guided Rocket Up/Down: Y/H
 
 ### Trello
 https://trello.com/b/eHcCihqj/50-inside
-
-### Enemies
-
-![drone_1](Screenshots/Drone_1.PNG)
-
-![drone_2](Screenshots/Drone_2.PNG)
-
-![drone_3](Screenshots/Drone_3.PNG)
-
-![drone_4](Screenshots/Drone_4.PNG)
-
-![drone_5](Screenshots/Drone_5.PNG)
-
-![drone_6](Screenshots/Drone_6.PNG)
