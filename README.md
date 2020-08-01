@@ -1,4 +1,8 @@
 # 50' Inside
+![action](Screenshots/Action.PNG)
+![fire](Screenshots/Fire.PNG)
+![radar](Screenshots/Radar.PNG)
+
 Remake of the famous FPS game Descent, made in 1995, made under UE.
 
 Demo: https://youtu.be/UK5_WKM__D4
@@ -33,6 +37,3 @@ Move Up/Down: C/X
 Move Guided Rocket Up: G/J
 
 Move Guided Rocket Up/Down: Y/H
-
-### Trello
-https://trello.com/b/eHcCihqj/50-inside
